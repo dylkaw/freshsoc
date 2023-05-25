@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "230960917366",
+    "project_id": "freshsoc-fdef2",
+    "storage_bucket": "freshsoc-fdef2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230960917366:android:74c8d8b286aa0a7aeb2857",
+        "android_client_info": {
+          "package_name": "com.freshsoc.freshsoc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230960917366-vvudrcit0kq9f946i3q1s59qrofu2f3l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEf6PHCJXhCMbTtJpqy7kDzEpI9IwH5i4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230960917366-vvudrcit0kq9f946i3q1s59qrofu2f3l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
