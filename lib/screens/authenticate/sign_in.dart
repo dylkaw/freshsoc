@@ -90,19 +90,11 @@ class _SignInState extends State<SignIn> {
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 239, 124, 0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        )),
+                  TextButton(
                     onPressed: () {
                       widget.toggleView();
                     },
-                    child: const Text('Register'),
+                    child: const Text('Create account'),
                   ),
                   SizedBox(height: 12.0),
                   Text(

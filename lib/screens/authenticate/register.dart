@@ -72,9 +72,9 @@ class _RegisterState extends State<Register> {
                       ),
                       obscureText: true,
                       validator: (val) =>
-                          val == password ? 'Password does not match!' : null,
+                          val == password ? null : 'Password does not match!',
                       onChanged: (val) {
-                        setState(() => password = val);
+                        setState(() => confirmPassword = val);
                       }),
                   const SizedBox(height: 15.0),
                   ElevatedButton(
@@ -84,6 +84,8 @@ class _RegisterState extends State<Register> {
                           borderRadius: BorderRadius.circular(20.0),
                         )),
                     onPressed: () async {
+                      print(password);
+                      print(confirmPassword);
                       if (_formKey.currentState!.validate()) {
                         dynamic result = await _auth
                             .registerWithEmailAndPassword(email, password);
