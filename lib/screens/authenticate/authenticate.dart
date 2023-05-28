@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshsoc/screens/authenticate/sign_in.dart';
 import 'package:freshsoc/screens/authenticate/register.dart';
+import 'package:freshsoc/screens/authenticate/verification.dart';
 
 class Authenticate extends StatefulWidget {
   const Authenticate({super.key});
@@ -10,18 +11,20 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
-  bool showSignIn = true;
+  String authScreen = 'signIn';
 
-  void toggleView() {
-    setState(() => showSignIn = !showSignIn);
+  void switchAuthScreen(String screen) {
+    setState(() => authScreen = screen);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (showSignIn) {
-      return SignIn(toggleView: toggleView);
+    if (authScreen == 'signIn') {
+      return SignIn(switchAuthScreen: switchAuthScreen);
+    } else if (authScreen == 'register') {
+      return Register(switchAuthScreen: switchAuthScreen);
     } else {
-      return Register(toggleView: toggleView);
+      return Verification(switchAuthScreen: switchAuthScreen);
     }
   }
 }

@@ -6,23 +6,14 @@ class AuthService {
 
   // create custom_user obj based on User
   CustomUser? _customUserFromUser(User? user) {
-    return user != null ? CustomUser(uid: user.uid) : null;
+    return user != null
+        ? CustomUser(uid: user.uid, emailVerified: user.emailVerified)
+        : null;
   }
 
   // auth change user stream
   Stream<CustomUser?> get user {
     return _auth.authStateChanges().map(_customUserFromUser);
-  }
-
-  // sign in anon
-  Future signInAnon() async {
-    try {
-      UserCredential result = await _auth.signInAnonymously();
-      User? user = result.user;
-      return _customUserFromUser(user);
-    } catch (e) {
-      print(e.toString());
-    }
   }
 
   // sign in with email and password
@@ -45,6 +36,9 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User? user = result.user;
+      print(user);
+      await user!.sendEmailVerification();
+      await FirebaseAuth.instance.signOut();
       print(user);
       return _customUserFromUser(user);
     } catch (e) {

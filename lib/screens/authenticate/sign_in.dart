@@ -4,8 +4,8 @@ import 'package:freshsoc/services/auth.dart';
 import 'package:freshsoc/shared/constants.dart';
 
 class SignIn extends StatefulWidget {
-  final Function toggleView;
-  const SignIn({required this.toggleView, super.key});
+  final Function switchAuthScreen;
+  const SignIn({required this.switchAuthScreen, super.key});
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -92,7 +92,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   TextButton(
                     onPressed: () {
-                      widget.toggleView();
+                      widget.switchAuthScreen('register');
                     },
                     child: const Text('Create account'),
                   ),

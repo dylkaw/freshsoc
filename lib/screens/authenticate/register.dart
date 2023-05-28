@@ -4,9 +4,9 @@ import 'package:freshsoc/services/auth.dart';
 import 'package:freshsoc/shared/constants.dart';
 
 class Register extends StatefulWidget {
-  final Function toggleView;
+  final Function switchAuthScreen;
 
-  const Register({super.key, required this.toggleView});
+  const Register({super.key, required this.switchAuthScreen});
 
   @override
   State<Register> createState() => _RegisterState();
@@ -44,8 +44,8 @@ class _RegisterState extends State<Register> {
                       validator: (val) {
                         if (val!.isEmpty) {
                           return 'Enter an email';
-                        } else if (!val.endsWith('@u.nus.edu')) {
-                          return 'Email should be in the format XXX@u.nus.edu';
+                        } else if (val.isEmpty) {
+                          return 'Please enter a valid email';
                         } else {
                           return null;
                         }
@@ -84,13 +84,13 @@ class _RegisterState extends State<Register> {
                           borderRadius: BorderRadius.circular(20.0),
                         )),
                     onPressed: () async {
-                      print(password);
-                      print(confirmPassword);
                       if (_formKey.currentState!.validate()) {
                         dynamic result = await _auth
                             .registerWithEmailAndPassword(email, password);
                         if (result == null) {
                           setState(() => error = 'Please supply a valid email');
+                        } else {
+                          widget.switchAuthScreen('verification');
                         }
                       }
                     },
@@ -101,7 +101,7 @@ class _RegisterState extends State<Register> {
                   ),
                   TextButton(
                     onPressed: () {
-                      widget.toggleView();
+                      widget.switchAuthScreen('signIn');
                     },
                     child: const Text('Sign in instead'),
                   ),
