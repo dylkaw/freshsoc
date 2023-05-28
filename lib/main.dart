@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freshsoc/firebase_options.dart';
 import 'package:freshsoc/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:freshsoc/services/auth.dart';
@@ -7,7 +8,9 @@ import 'package:freshsoc/models/custom_user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

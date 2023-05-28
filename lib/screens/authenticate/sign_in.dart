@@ -4,8 +4,8 @@ import 'package:freshsoc/services/auth.dart';
 import 'package:freshsoc/shared/constants.dart';
 
 class SignIn extends StatefulWidget {
-  final Function toggleView;
-  const SignIn({required this.toggleView, super.key});
+  final Function switchAuthScreen;
+  const SignIn({required this.switchAuthScreen, super.key});
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -42,9 +42,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       validator: (val) {
                         if (val!.isEmpty) {
-                          return 'Enter an email';
-                        } else if (!val.endsWith('@u.nus.edu')) {
-                          return 'Email should be in the format XXX@u.nus.edu';
+                          return 'Please enter a valid email';
                         } else {
                           return null;
                         }
@@ -82,6 +80,8 @@ class _SignInState extends State<SignIn> {
                             .signInWithEmailAndPassword(email, password);
                         if (result == null) {
                           setState(() => error = 'Invalid credentials');
+                        } else if (!result.emailVerified) {
+                          setState(() => error = 'Please verify your email!');
                         }
                       }
                     },
@@ -90,19 +90,11 @@ class _SignInState extends State<SignIn> {
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 239, 124, 0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        )),
+                  TextButton(
                     onPressed: () {
-                      widget.toggleView();
+                      widget.switchAuthScreen('register');
                     },
-                    child: const Text('Register'),
+                    child: const Text('Create account'),
                   ),
                   SizedBox(height: 12.0),
                   Text(
