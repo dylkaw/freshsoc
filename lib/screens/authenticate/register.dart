@@ -43,8 +43,6 @@ class _RegisterState extends State<Register> {
                       ),
                       validator: (val) {
                         if (val!.isEmpty) {
-                          return 'Enter an email';
-                        } else if (val.isEmpty) {
                           return 'Please enter a valid email';
                         } else {
                           return null;

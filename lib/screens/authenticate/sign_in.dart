@@ -42,9 +42,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       validator: (val) {
                         if (val!.isEmpty) {
-                          return 'Enter an email';
-                        } else if (!val.endsWith('@u.nus.edu')) {
-                          return 'Email should be in the format XXX@u.nus.edu';
+                          return 'Please enter a valid email';
                         } else {
                           return null;
                         }
@@ -82,6 +80,8 @@ class _SignInState extends State<SignIn> {
                             .signInWithEmailAndPassword(email, password);
                         if (result == null) {
                           setState(() => error = 'Invalid credentials');
+                        } else if (!result.emailVerified) {
+                          setState(() => error = 'Please verify your email!');
                         }
                       }
                     },
