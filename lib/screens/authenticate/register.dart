@@ -18,6 +18,8 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
   // text field state
+  String name = '';
+  String course = 'Computer Science';
   String email = '';
   String password = '';
   String confirmPassword = '';
@@ -33,13 +35,54 @@ class _RegisterState extends State<Register> {
           title: const Text('Register to FreshSoC'),
         ),
         body: loading
-            ? Loading()
+            ? const Loading()
             : Container(
                 padding: const EdgeInsets.symmetric(
                     vertical: 10.0, horizontal: 35.0),
                 child: Form(
                     key: _formKey,
                     child: Column(children: [
+                      const SizedBox(height: 15.0),
+                      TextFormField(
+                          decoration: textInputDecoration.copyWith(
+                            label: const Text('Full Name'),
+                          ),
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return 'Please enter your name';
+                            } else {
+                              return null;
+                            }
+                          },
+                          onChanged: (val) {
+                            setState(() => name = val);
+                          }),
+                      const SizedBox(height: 15.0),
+                      DropdownButtonFormField(
+                          value: "Computer Science",
+                          decoration: textInputDecoration.copyWith(
+                            label: const Text("Course of Study"),
+                          ),
+                          items: const [
+                            DropdownMenuItem(
+                                value: "Business Analytics",
+                                child: Text("Business Analytics")),
+                            DropdownMenuItem(
+                                value: "Computer Engineering",
+                                child: Text("Computer Engineering")),
+                            DropdownMenuItem(
+                                value: "Computer Science",
+                                child: Text("Computer Science")),
+                            DropdownMenuItem(
+                                value: "Information Security",
+                                child: Text("Information Security")),
+                            DropdownMenuItem(
+                                value: "Information Systems",
+                                child: Text("Information Systems")),
+                          ],
+                          onChanged: (val) {
+                            setState(() => name = val as String);
+                          }),
                       const SizedBox(height: 15.0),
                       TextFormField(
                           decoration: textInputDecoration.copyWith(
@@ -90,8 +133,9 @@ class _RegisterState extends State<Register> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             setState(() => loading = true);
-                            dynamic result = await _auth
-                                .registerWithEmailAndPassword(email, password);
+                            dynamic result =
+                                await _auth.registerWithEmailAndPassword(
+                                    name, course, email, password);
                             if (result == null) {
                               setState(() {
                                 error = 'Please supply a valid email';
