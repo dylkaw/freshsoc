@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:freshsoc/screens/home/components/profile_card.dart";
 import "package:freshsoc/services/auth.dart";
 import "package:freshsoc/services/database.dart";
+import "package:freshsoc/shared/constants.dart";
 import 'package:provider/provider.dart';
 
 class Settings extends StatelessWidget {
@@ -16,7 +17,7 @@ class Settings extends StatelessWidget {
       backgroundColor: const Color.fromARGB(255, 234, 230, 229),
       appBar: AppBar(
         title: const Text('Settings'),
-        backgroundColor: const Color.fromARGB(255, 0, 34, 186),
+        backgroundColor: nusOrange,
         elevation: 0.0,
         actions: <Widget>[
           TextButton.icon(
