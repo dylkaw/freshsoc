@@ -13,21 +13,39 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 234, 230, 229),
-        appBar: AppBar(
-          title: const Text('freshSoC'),
-          backgroundColor: Color.fromARGB(255, 0, 34, 186),
-          elevation: 0.0,
-          actions: <Widget>[
-            TextButton.icon(
-              icon: const Icon(Icons.person),
-              label: const Text('logout'),
-              onPressed: () async {
-                await _auth.signOut();
-              },
-            )
-          ],
-        ),
-        body: ProfileCard(user: _auth.currentUser));
+      backgroundColor: const Color.fromARGB(255, 234, 230, 229),
+      appBar: AppBar(
+        title: const Text('freshSoC'),
+        backgroundColor: const Color.fromARGB(255, 0, 34, 186),
+        elevation: 0.0,
+        actions: <Widget>[
+          TextButton.icon(
+            icon: const Icon(Icons.person),
+            label: const Text('logout'),
+            onPressed: () async {
+              await _auth.signOut();
+            },
+          )
+        ],
+      ),
+      body: ProfileCard(user: _auth.currentUser),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: const Color.fromARGB(255, 126, 145, 154),
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined), label: "Home"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.groups_outlined), label: "SoCialize"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.chat_outlined), label: "SoCChat"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.school_outlined), label: "SoCcess"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined), label: "Settings")
+        ],
+      ),
+    );
   }
 }
