@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:freshsoc/models/custom_user.dart';
+import 'package:freshsoc/models/user_model.dart';
 import 'package:freshsoc/services/auth.dart';
 import 'package:freshsoc/shared/constants.dart';
 import 'package:freshsoc/shared/widgets/loading.dart';
@@ -82,7 +82,7 @@ class _SignInState extends State<SignIn> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             setState(() => loading = true);
-                            CustomUser? result = await _auth
+                            UserModel? result = await _auth
                                 .signInWithEmailAndPassword(email, password);
                             if (result == null) {
                               setState(() {

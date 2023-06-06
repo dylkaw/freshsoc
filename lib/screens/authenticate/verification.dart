@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:freshsoc/models/custom_user.dart';
+import 'package:freshsoc/models/user_model.dart';
 import 'package:freshsoc/services/auth.dart';
 import 'package:freshsoc/shared/constants.dart';
 

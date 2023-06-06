@@ -1,19 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:freshsoc/models/custom_user.dart';
+import 'package:freshsoc/models/user_model.dart';
 import 'package:freshsoc/services/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // create custom_user obj based on User
-  CustomUser? _customUserFromUser(User? user) {
-    return user != null
-        ? CustomUser(uid: user.uid, emailVerified: user.emailVerified)
-        : null;
+  Future<UserModel?> _customUserFromUser(User? user) async {
+    if (user != null) {
+      return DatabaseService(user: user).getUserDetails();
+    } else {
+      return null;
+    }
   }
 
   // auth change user stream
-  Stream<CustomUser?> get user {
+  Stream<Future<UserModel?>> get user {
     return _auth.authStateChanges().map(_customUserFromUser);
   }
 
@@ -38,12 +40,17 @@ class AuthService {
           email: email, password: password);
       User? user = result.user;
       await user!.sendEmailVerification();
-      await DatabaseService(uid: user.uid).updateUserData(name, email, course);
+      await DatabaseService(user: user).updateUserData(name, email, course);
       await FirebaseAuth.instance.signOut();
       return _customUserFromUser(user);
     } catch (e) {
       return null;
     }
+  }
+
+  // get current user id
+  String get currUserId {
+    return _auth.currentUser!.uid;
   }
 
   // sign out
