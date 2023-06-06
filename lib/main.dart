@@ -25,8 +25,9 @@ class MyApp extends StatelessWidget {
     return StreamProvider<User?>.value(
       initialData: null,
       value: _auth.authStateChanges(),
-      child: const MaterialApp(
+      child: MaterialApp(
         home: Wrapper(),
+        theme: ThemeData(fontFamily: 'Frutiger'),
       ),
     );
   }
