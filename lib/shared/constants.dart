@@ -5,3 +5,6 @@ const textInputDecoration = InputDecoration(
   filled: true,
   isDense: true,
 );
+
+const nusOrange = Color(0xFFEF7C00);
+const nusBlue = Color(0xFF003D7C);
