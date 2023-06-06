@@ -5,8 +5,8 @@ import "package:freshsoc/services/auth.dart";
 import "package:freshsoc/services/database.dart";
 import 'package:provider/provider.dart';
 
-class Home extends StatelessWidget {
-  Home({super.key});
+class Socialize extends StatelessWidget {
+  Socialize({super.key});
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -15,7 +15,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 234, 230, 229),
       appBar: AppBar(
-        title: const Text('Homepage'),
+        title: const Text('SoCialize'),
         backgroundColor: const Color.fromARGB(255, 0, 34, 186),
         elevation: 0.0,
         actions: <Widget>[
