@@ -20,8 +20,7 @@ class _NavigationControllerState extends State<NavigationController> {
 
   List<Widget> _screens = [
     Home(),
-    // Socialize(),
-    CreatePost(),
+    Socialize(),
     Socchat(),
     Soccess(),
     Settings(),

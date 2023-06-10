@@ -8,6 +8,7 @@ import 'package:freshsoc/shared/widgets/loading.dart';
 
 class CreatePost extends StatefulWidget {
   const CreatePost({super.key});
+  static const routeName = '/socialize/createpost';
 
   @override
   State<CreatePost> createState() => _CreatePostState();
@@ -32,7 +33,7 @@ class _CreatePostState extends State<CreatePost> {
           elevation: 0.0,
           title: const Text('Create Post'),
           centerTitle: true,
-          leading: const BackButton(),
+          leading: BackButton(),
         ),
         body: Container(
             padding:

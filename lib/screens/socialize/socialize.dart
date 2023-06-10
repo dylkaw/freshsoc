@@ -1,11 +1,17 @@
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:freshsoc/screens/home/components/profile_card.dart";
+import "package:freshsoc/screens/socialize/create_post.dart";
 import "package:freshsoc/shared/constants.dart";
 
-class Socialize extends StatelessWidget {
-  Socialize({super.key});
+class Socialize extends StatefulWidget {
+  const Socialize({super.key});
 
+  @override
+  State<Socialize> createState() => _SocializeState();
+}
+
+class _SocializeState extends State<Socialize> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
@@ -16,17 +22,22 @@ class Socialize extends StatelessWidget {
         title: const Text('SoCialize'),
         backgroundColor: nusOrange,
         elevation: 0.0,
-        actions: <Widget>[
-          TextButton.icon(
-            icon: const Icon(Icons.person),
-            label: const Text('logout'),
-            onPressed: () async {
-              await _auth.signOut();
-            },
-          )
-        ],
       ),
-      body: ProfileCard(user: _auth.currentUser),
+      body: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: nusBlue,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            )),
+        onPressed: () {
+          Navigator.pushNamed(context, CreatePost.routeName)
+              .then((value) => setState(() {}));
+        },
+        child: const Text(
+          'NEW POST',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
     );
   }
 }

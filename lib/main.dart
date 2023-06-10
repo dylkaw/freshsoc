@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         home: Wrapper(),
         // home: CreatePost(),
         theme: ThemeData(fontFamily: 'Frutiger'),
+        routes: {CreatePost.routeName: (context) => const CreatePost()},
       ),
     );
   }
