@@ -33,7 +33,7 @@ class _CreatePostState extends State<CreatePost> {
           elevation: 0.0,
           title: const Text('Create Post'),
           centerTitle: true,
-          leading: BackButton(),
+          leading: const BackButton(),
         ),
         body: Container(
             padding:
@@ -97,6 +97,30 @@ class _CreatePostState extends State<CreatePost> {
                       if (_formKey.currentState!.validate()) {
                         await DatabaseService(user: _firebaseAuth.currentUser)
                             .createPost(title, category, bodyText);
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text(
+                                  'Post Created!',
+                                  textAlign: TextAlign.center,
+                                ),
+                                content: Text(
+                                  "Title: $title",
+                                  textAlign: TextAlign.center,
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () =>
+                                          Navigator.popAndPushNamed(
+                                              context, '/socialize'),
+                                      child: const Text(
+                                        'Return to SoCialize',
+                                        textAlign: TextAlign.center,
+                                      ))
+                                ],
+                              );
+                            });
                       }
                     },
                     child: const Text(

@@ -30,8 +30,7 @@ class _SocializeState extends State<Socialize> {
               borderRadius: BorderRadius.circular(20.0),
             )),
         onPressed: () {
-          Navigator.pushNamed(context, CreatePost.routeName)
-              .then((value) => setState(() {}));
+          Navigator.pushNamed(context, CreatePost.routeName);
         },
         child: const Text(
           'NEW POST',

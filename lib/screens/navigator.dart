@@ -9,15 +9,14 @@ import 'package:freshsoc/screens/socialize/create_post.dart';
 import 'package:freshsoc/screens/socialize/socialize.dart';
 
 class NavigationController extends StatefulWidget {
-  const NavigationController({super.key});
+  int selectedIndex;
+  NavigationController({super.key, required this.selectedIndex});
 
   @override
   State<NavigationController> createState() => _NavigationControllerState();
 }
 
 class _NavigationControllerState extends State<NavigationController> {
-  int _selectedIndex = 0;
-
   List<Widget> _screens = [
     Home(),
     Socialize(),
@@ -27,9 +26,8 @@ class _NavigationControllerState extends State<NavigationController> {
   ];
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      body: _screens[_selectedIndex],
+    return Scaffold(
+      body: _screens[widget.selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.black,
@@ -48,11 +46,11 @@ class _NavigationControllerState extends State<NavigationController> {
         ],
         onTap: (i) {
           setState(() {
-            _selectedIndex = i;
+            widget.selectedIndex = i;
           });
         },
-        currentIndex: _selectedIndex,
+        currentIndex: widget.selectedIndex,
       ),
-    ));
+    );
   }
 }
