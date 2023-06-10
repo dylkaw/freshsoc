@@ -21,10 +21,8 @@ class DatabaseService {
   Future<UserModel> getUserDetails() async {
     final snapshot = await userCollection.doc(user!.uid).get();
     // print(snapshot.data().runtimeType);
-    final testData = UserModel.fromSnapshot(
+    final userData = UserModel.fromSnapshot(
         snapshot.data() as Map<String, dynamic>, user!.emailVerified);
-    final userData = UserModel(
-        name: "helo", course: "coursade", email: "email", emailVerified: true);
-    return testData;
+    return userData;
   }
 }

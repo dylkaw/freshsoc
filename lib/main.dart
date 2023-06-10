@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:freshsoc/firebase_options.dart';
+import 'package:freshsoc/screens/socialize/create_post.dart';
 import 'package:freshsoc/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:freshsoc/services/auth.dart';
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
       initialData: null,
       value: _auth.authStateChanges(),
       child: MaterialApp(
-        home: Wrapper(),
+        // home: Wrapper(),
+        home: CreatePost(),
         theme: ThemeData(fontFamily: 'Frutiger'),
       ),
     );
