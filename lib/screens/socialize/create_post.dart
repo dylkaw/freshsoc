@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:freshsoc/models/user_model.dart';
 import 'package:freshsoc/services/auth.dart';
+import 'package:freshsoc/services/database.dart';
 import 'package:freshsoc/shared/constants.dart';
 import 'package:freshsoc/shared/widgets/loading.dart';
 
@@ -12,6 +14,7 @@ class CreatePost extends StatefulWidget {
 }
 
 class _CreatePostState extends State<CreatePost> {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
@@ -91,7 +94,8 @@ class _CreatePostState extends State<CreatePost> {
                         )),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        setState(() => loading = true);
+                        await DatabaseService(user: _firebaseAuth.currentUser)
+                            .createPost(title, category, bodyText);
                       }
                     },
                     child: const Text(

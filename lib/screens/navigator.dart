@@ -5,6 +5,7 @@ import 'package:freshsoc/screens/home/home.dart';
 import 'package:freshsoc/screens/settings/settings.dart';
 import 'package:freshsoc/screens/soccess/soccess.dart';
 import 'package:freshsoc/screens/socchat/socchat.dart';
+import 'package:freshsoc/screens/socialize/create_post.dart';
 import 'package:freshsoc/screens/socialize/socialize.dart';
 
 class NavigationController extends StatefulWidget {
@@ -19,7 +20,8 @@ class _NavigationControllerState extends State<NavigationController> {
 
   List<Widget> _screens = [
     Home(),
-    Socialize(),
+    // Socialize(),
+    CreatePost(),
     Socchat(),
     Soccess(),
     Settings(),

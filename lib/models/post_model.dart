@@ -6,7 +6,6 @@ class PostModel {
   final String category;
   final String bodyText;
   final int likes;
-  final CollectionReference comments;
 
   PostModel({
     required this.uid,
@@ -14,7 +13,6 @@ class PostModel {
     required this.category,
     required this.bodyText,
     required this.likes,
-    required this.comments,
   });
 
   factory PostModel.fromSnapshot(Map<String, dynamic> document) {
@@ -23,7 +21,6 @@ class PostModel {
         title: document["title"],
         category: document["category"],
         bodyText: document["bodyText"],
-        likes: document["likes"],
-        comments: document["comments"]);
+        likes: document["likes"]);
   }
 }

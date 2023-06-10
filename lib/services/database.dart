@@ -10,6 +10,9 @@ class DatabaseService {
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection("users");
 
+  final CollectionReference postCollection =
+      FirebaseFirestore.instance.collection("posts");
+
   Future updateUserData(String name, String email, String course) async {
     return await userCollection.doc(user!.uid).set({
       'name': name,
@@ -24,5 +27,15 @@ class DatabaseService {
     final userData = UserModel.fromSnapshot(
         snapshot.data() as Map<String, dynamic>, user!.emailVerified);
     return userData;
+  }
+
+  Future createPost(String title, String category, String bodyText) async {
+    return await postCollection.doc().set({
+      'uid': user!.uid,
+      'title': title,
+      'category': category,
+      'bodyText': bodyText,
+      'likes': 0
+    });
   }
 }

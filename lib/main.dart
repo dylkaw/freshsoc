@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
       initialData: null,
       value: _auth.authStateChanges(),
       child: MaterialApp(
-        // home: Wrapper(),
-        home: CreatePost(),
+        home: Wrapper(),
+        // home: CreatePost(),
         theme: ThemeData(fontFamily: 'Frutiger'),
       ),
     );
