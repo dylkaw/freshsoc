@@ -17,7 +17,7 @@ class NavigationController extends StatefulWidget {
 }
 
 class _NavigationControllerState extends State<NavigationController> {
-  List<Widget> _screens = [
+  final List<Widget> _screens = [
     Home(),
     Socialize(),
     Socchat(),

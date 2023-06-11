@@ -29,11 +29,12 @@ class _SocializeState extends State<Socialize> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
             )),
-        onPressed: () {
-          Navigator.pushNamed(context, CreatePost.routeName);
+        onPressed: () async {
+          await Navigator.pushNamed(context, CreatePost.routeName);
+          setState(() {});
         },
         child: const Text(
-          'NEW POST',
+          'CREATE POST',
           style: TextStyle(color: Colors.white),
         ),
       ),

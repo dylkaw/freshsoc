@@ -111,9 +111,10 @@ class _CreatePostState extends State<CreatePost> {
                                 ),
                                 actions: [
                                   TextButton(
-                                      onPressed: () =>
-                                          Navigator.popAndPushNamed(
-                                              context, '/socialize'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).pop();
+                                      },
                                       child: const Text(
                                         'Return to SoCialize',
                                         textAlign: TextAlign.center,
