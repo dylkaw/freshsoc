@@ -92,8 +92,7 @@ class _SignInState extends State<SignIn> {
                         const SizedBox(height: 20.0),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 0, 61, 124),
+                            backgroundColor: nusOrange,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0),
                             ),
@@ -125,7 +124,10 @@ class _SignInState extends State<SignIn> {
                           onPressed: () {
                             widget.switchAuthScreen('register');
                           },
-                          child: const Text('Create account'),
+                          child: const Text(
+                            'Create account',
+                            style: TextStyle(color: nusBlue),
+                          ),
                         ),
                         SizedBox(height: 12.0),
                         Text(
