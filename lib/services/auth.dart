@@ -48,6 +48,33 @@ class AuthService {
     }
   }
 
+  // check if email is a registered account
+  Future<bool> isEmailRegistered(String email) async {
+    try {
+      UserCredential? result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: 'temporary_password');
+      await result.user!.delete(); // Delete the temporary user
+      return false; // Email does not exist in the database
+    } catch (e) {
+      if (e is FirebaseAuthException && e.code == 'email-already-in-use') {
+        return true; // Email exists in the database
+      }
+      print(e.toString());
+      return false; // An error occurred or email doesn't exist
+    }
+  }
+
+  // send password reset email
+  Future sendPasswordResetEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
   // get current user id
   String get currUserId {
     return _auth.currentUser!.uid;
