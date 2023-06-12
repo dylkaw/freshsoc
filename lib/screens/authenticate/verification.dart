@@ -15,11 +15,11 @@ class _VerificationState extends State<Verification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 234, 230, 229),
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 0, 61, 124),
+          backgroundColor: nusBlue,
           elevation: 0.0,
-          title: const Text('Sign in to FreshSoC'),
+          title: const Text('Register FreshSoC Account'),
         ),
         body: Container(
             padding:
@@ -29,14 +29,20 @@ class _VerificationState extends State<Verification> {
                 children: [
                   const SizedBox(height: 20.0),
                   const Text(
-                    'A verification email has been sent to your email address. Please verify your email before logging in.',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(fontSize: 18.0),
+                    'We have sent a verification link to your NUS email.',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  const SizedBox(height: 20.0),
+                  const Text(
+                    'Verify your account by clicking the link sent to your email.',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 20.0),
                   ),
                   const SizedBox(height: 20.0),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 0, 61, 124),
+                        backgroundColor: nusOrange,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         )),
@@ -44,7 +50,7 @@ class _VerificationState extends State<Verification> {
                       widget.switchAuthScreen('signIn');
                     },
                     child: const Text(
-                      'Return to sign in page',
+                      'Return to Login',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),

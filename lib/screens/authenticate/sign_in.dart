@@ -81,7 +81,7 @@ class _SignInState extends State<SignIn> {
                             label: const Text('Password'),
                           ),
                           validator: (val) => val!.length < 6
-                              ? 'Enter a password 6+ chars long'
+                              ? 'Password contains >6 characters'
                               : null,
                           onChanged: (val) {
                             setState(() {
