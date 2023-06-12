@@ -49,14 +49,18 @@ class AuthService {
   }
 
   // check if email is a registered account
-  Future isEmailRegistered(String email) async {
+  Future<bool> isEmailRegistered(String email) async {
     try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(
+      UserCredential? result = await _auth.createUserWithEmailAndPassword(
           email: email, password: 'temporary_password');
       await result.user!.delete(); // Delete the temporary user
-      return true; // Email exists in the database
+      return false; // Email does not exist in the database
     } catch (e) {
-      return false; // Email does not exist or an error occurred
+      if (e is FirebaseAuthException && e.code == 'email-already-in-use') {
+        return true; // Email exists in the database
+      }
+      print(e.toString());
+      return false; // An error occurred or email doesn't exist
     }
   }
 
