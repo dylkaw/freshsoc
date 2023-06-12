@@ -25,105 +25,142 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: loading
-            ? const Loading()
-            : Column(
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Picture
+            Container(
+              color: Colors
+                  .blue, // Set the desired background color for the picture section
+              child: Image.asset(
+                'assets/images/nus_soc.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 35.0),
+              child: Column(
                 children: [
-                  //Picture
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/nus_soc.jpg',
-                      )
+                  const SizedBox(height: 20.0),
+                  Center(
+                    child: Text(
+                      'Login to FreshSoC',
+                      style: TextStyle(
+                        fontSize: 25.0,
+                      ),
+                    ),
                   ),
-                  Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 35.0),
-                      child: Form(
-                          key: _formKey,
-                          child: Column(children: [
-                            const SizedBox(height: 20.0),
-                            TextFormField(
-                                decoration: textInputDecoration.copyWith(
-                                  label: const Text('Email'),
-                                ),
-                                validator: (val) {
-                                  if (val!.isEmpty) {
-                                    return 'Please enter a valid email';
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                onChanged: (val) {
-                                  setState(() {
-                                    email = val;
-                                  });
-                                }),
-                            const SizedBox(height: 20.0),
-                            TextFormField(
-                              obscureText: true,
-                              decoration: textInputDecoration.copyWith(
-                                label: const Text('Password'),
-                              ),
-                              validator: (val) => val!.length < 6
-                                  ? 'Enter a password 6+ chars long'
-                                  : null,
-                              onChanged: (val) {
+                  const SizedBox(height: 30.0),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: textInputDecoration.copyWith(
+                            label: const Text('Email'),
+                          ),
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return 'Please enter a valid email';
+                            } else {
+                              return null;
+                            }
+                          },
+                          onChanged: (val) {
+                            setState(() {
+                              email = val;
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 20.0),
+                        TextFormField(
+                          obscureText: true,
+                          decoration: textInputDecoration.copyWith(
+                            label: const Text('Password'),
+                          ),
+                          validator: (val) => val!.length < 6
+                              ? 'Enter a password 6+ chars long'
+                              : null,
+                          onChanged: (val) {
+                            setState(() {
+                              password = val;
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 20.0),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: nusOrange,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                          ),
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              setState(() => loading = true);
+                              UserModel? result = await _auth
+                                  .signInWithEmailAndPassword(email, password);
+                              if (result == null) {
                                 setState(() {
-                                  password = val;
+                                  error = 'Invalid credentials';
+                                  loading = false;
                                 });
-                              },
-                            ),
-                            const SizedBox(height: 20.0),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 0, 61, 124),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  )),
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  setState(() => loading = true);
-                                  UserModel? result =
-                                      await _auth.signInWithEmailAndPassword(
-                                          email, password);
-                                  if (result == null) {
-                                    setState(() {
-                                      error = 'Invalid credentials';
-                                      loading = false;
-                                    });
-                                  } else if (!result.emailVerified) {
-                                    setState(() {
-                                      error = 'Please verify your email!';
-                                      loading = false;
-                                    });
-                                  }
-                                }
-                              },
-                              child: const Text(
-                                'Sign In',
-                                style: TextStyle(color: Colors.white),
+                              } else if (!result.emailVerified) {
+                                setState(() {
+                                  error = 'Please verify your email!';
+                                  loading = false;
+                                });
+                              }
+                            }
+                          },
+                          child: const Text(
+                            'Sign In',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            widget.switchAuthScreen('register');
+                          },
+                          child: const Text(
+                            'Create new account',
+                            style: TextStyle(color: nusBlue),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            // Implement Forgot Password functionality here
+                            // For simplicity, we can show a snackbar with a message
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Forgot Password Clicked'),
                               ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                widget.switchAuthScreen('register');
-                              },
-                              child: const Text('Create account'),
-                            ),
-                            SizedBox(height: 12.0),
-                            Text(
-                              error,
-                              style:
-                                  TextStyle(color: Colors.red, fontSize: 14.0),
-                            )
-                          ]
+                            );
+                          },
+                          child: const Text(
+                            'Forgot Password?',
+                            style: TextStyle(color: nusBlue),
                           ),
-                          ),
-                          ),
+                        ),
+                        SizedBox(height: 12.0),
+                        Text(
+                          error,
+                          style: TextStyle(color: Colors.red, fontSize: 14.0),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
-              ));
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
