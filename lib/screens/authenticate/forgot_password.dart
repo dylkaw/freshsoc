@@ -15,32 +15,11 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
-  bool loading = false;
+  bool isLoading = false;
 
   // text field state
   String email = '';
   String error = '';
-
-  Future<void> resetPassword() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() => loading = true);
-      try {
-        await _auth.
-        // Password reset email sent successfully
-        setState(() {
-          error = 'Password reset email sent. Please check your inbox.';
-          loading = false;
-        });
-      } catch (e) {
-        // Error occurred while sending password reset email
-        setState(() {
-          error = 'Failed to send password reset email. Please try again.';
-          loading = false;
-        });
-      }
-    }
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -86,26 +65,69 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       },
                     ),
                     const SizedBox(height: 20.0),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: nusOrange,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
+                    Builder(
+                      builder: (context) => ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: nusOrange,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                        ),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              isLoading = true;
+                              error = '';
+                            });
+
+                            bool isRegistered =
+                                await _auth.isEmailRegistered(email);
+                            if (isRegistered) {
+                              bool success =
+                                  await _auth.sendPasswordResetEmail(email);
+                              if (success) {
+                                setState(() {
+                                  error =
+                                      'Password reset email sent. Please check your inbox.';
+                                });
+                              } else {
+                                setState(() {
+                                  error =
+                                      'Failed to send password reset email. Please try again.';
+                                });
+                              }
+                            } else {
+                              setState(() {
+                                error =
+                                    'Email is not registered. Please enter a valid email.';
+                              });
+                            }
+
+                            setState(() {
+                              isLoading = false;
+                            });
+                          }
+                        },
+                        child: const Text(
+                          'Reset Password',
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
-                      onPressed: resetPassword,
-                      child: const Text(
-                        'Reset Password',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    const SizedBox(height: 12.0),
-                    Text(
-                      error,
-                      style: TextStyle(color: Colors.red, fontSize: 14.0),
                     ),
                   ],
                 ),
+              ),
+              TextButton(
+                onPressed: () {
+                  widget.switchAuthScreen('signIn');
+                },
+                child: const Text('Return back to Login',
+                    style: TextStyle(color: nusBlue)),
+              ),
+              const SizedBox(height: 12.0),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red, fontSize: 14.0),
               ),
             ],
           ),

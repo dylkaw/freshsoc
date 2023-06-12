@@ -48,6 +48,18 @@ class AuthService {
     }
   }
 
+  // check if email is a registered account
+  Future isEmailRegistered(String email) async {
+    try {
+      UserCredential result = await _auth.signInWithEmailAndPassword(
+          email: email, password: 'temporary_password');
+      await result.user!.delete(); // Delete the temporary user
+      return true; // Email exists in the database
+    } catch (e) {
+      return false; // Email does not exist or an error occurred
+    }
+  }
+
   // send password reset email
   Future sendPasswordResetEmail(String email) async {
     try {
@@ -55,7 +67,7 @@ class AuthService {
       return true;
     } catch (e) {
       print(e.toString());
-      return null;
+      return false;
     }
   }
 
