@@ -1,20 +1,19 @@
-import "package:firebase_auth/firebase_auth.dart";
-import "package:flutter/material.dart";
-import "package:freshsoc/screens/home/components/profile_card.dart";
-import "package:freshsoc/services/auth.dart";
-import "package:freshsoc/services/database.dart";
-import "package:freshsoc/shared/constants.dart";
+import 'package:flutter/material.dart';
+import 'package:freshsoc/models/user_model.dart';
+import 'package:freshsoc/services/auth.dart';
+import 'package:freshsoc/services/database.dart';
+import 'package:freshsoc/shared/constants.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
-  Home({super.key});
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
+    final UserModel? user = Provider.of<UserModel?>(context);
+
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 234, 230, 229),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Homepage'),
         backgroundColor: nusOrange,
@@ -22,14 +21,52 @@ class Home extends StatelessWidget {
         actions: <Widget>[
           TextButton.icon(
             icon: const Icon(Icons.person),
-            label: const Text('logout'),
+            label: const Text('Logout'),
             onPressed: () async {
               await _auth.signOut();
             },
-          )
+          ),
         ],
       ),
-      body: ProfileCard(user: _auth.currentUser),
+      body: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Container(
+                color: Color.fromRGBO(0, 61, 124, 0.66),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Profile picture
+                      CircleAvatar(
+                          radius: 70.0,
+                          // To implement using user's profile picture in database
+                          backgroundImage:
+                              AssetImage('assets/images/soccat.png')),
+                      const SizedBox(height: 10.0),
+                      // User's name
+                      Text(
+                        user?.name ?? 'Student',
+                        style: const TextStyle(fontSize: 24.0),
+                      ),
+                      const SizedBox(height: 5.0),
+                      // User's course
+                      Text(
+                        user?.course ?? 'Course',
+                        style: const TextStyle(fontSize: 20.0),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+        ],
+      ),
     );
   }
 }
