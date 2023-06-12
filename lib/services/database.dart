@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:freshsoc/models/post_model.dart';
 import 'package:freshsoc/models/user_model.dart';
 
 class DatabaseService {
@@ -38,5 +39,13 @@ class DatabaseService {
       'bodyText': bodyText,
       'likes': 0
     });
+  }
+
+  Future<List<PostModel>> allPosts() async {
+    final snapshot = await postCollection.get();
+    final postData = snapshot.docs
+        .map((e) => PostModel.fromSnapshot(e.data() as Map<String, dynamic>))
+        .toList();
+    return postData;
   }
 }

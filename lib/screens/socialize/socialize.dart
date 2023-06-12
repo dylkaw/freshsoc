@@ -1,9 +1,12 @@
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:freshsoc/models/post_model.dart";
 import "package:freshsoc/screens/home/components/profile_card.dart";
 import "package:freshsoc/screens/socialize/components/post_card.dart";
 import "package:freshsoc/screens/socialize/create_post.dart";
+import "package:freshsoc/services/database.dart";
 import "package:freshsoc/shared/constants.dart";
+import "package:freshsoc/shared/widgets/loading.dart";
 
 class Socialize extends StatefulWidget {
   const Socialize({super.key});
@@ -17,6 +20,7 @@ class _SocializeState extends State<Socialize> {
 
   @override
   Widget build(BuildContext context) {
+    final _db = DatabaseService(user: _auth.currentUser);
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 234, 230, 229),
       appBar: AppBar(
@@ -41,16 +45,38 @@ class _SocializeState extends State<Socialize> {
               style: TextStyle(color: Colors.white),
             ),
           ),
-          PostCard(
-              postId: 'testpostid',
-              uid: 'testuid',
-              dateTime: DateTime.now(),
-              title:
-                  'even more evern more evern more hahahahvery very very very long long long testtitle',
-              category: 'testcategory',
-              bodyText:
-                  'very long long body test text very long long body test text very long long body test text very long long body test text very long long body test text very long long body test text very long long body test text very long long body test text very long long body test text very long long body test text very long long body test text ',
-              likes: 0),
+          Expanded(
+            child: FutureBuilder(
+              future: _db.allPosts(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: ((context, index) {
+                          PostModel postData = snapshot.data![index];
+                          DateTime formattedDate = DateTime.parse(
+                              postData.dateTime.toDate().toString());
+                          return PostCard(
+                              uid: postData.uid,
+                              dateTime: formattedDate,
+                              title: postData.title,
+                              category: postData.category,
+                              bodyText: postData.bodyText,
+                              likes: postData.likes);
+                        }));
+                  } else if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  } else {
+                    return Text("Something went wrong");
+                  }
+                } else {
+                  return Loading();
+                }
+              },
+            ),
+          )
         ],
       ),
     );

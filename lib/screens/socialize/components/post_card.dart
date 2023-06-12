@@ -4,7 +4,6 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
 
 class PostCard extends StatefulWidget {
-  final String postId;
   final String uid;
   final DateTime dateTime;
   final String title;
@@ -14,7 +13,6 @@ class PostCard extends StatefulWidget {
 
   PostCard(
       {super.key,
-      required this.postId,
       required this.uid,
       required this.dateTime,
       required this.title,

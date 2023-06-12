@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostModel {
   final String uid;
-  final DateTime dateTime;
+  final Timestamp dateTime;
   final String title;
   final String category;
   final String bodyText;
