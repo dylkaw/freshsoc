@@ -48,6 +48,17 @@ class AuthService {
     }
   }
 
+  // send password reset email
+  Future sendPasswordResetEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   // get current user id
   String get currUserId {
     return _auth.currentUser!.uid;

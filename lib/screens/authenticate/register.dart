@@ -6,7 +6,6 @@ import 'package:freshsoc/shared/widgets/loading.dart';
 
 class Register extends StatefulWidget {
   final Function switchAuthScreen;
-
   const Register({super.key, required this.switchAuthScreen});
 
   @override
@@ -155,7 +154,7 @@ class _RegisterState extends State<Register> {
                             onPressed: () {
                               widget.switchAuthScreen('signIn');
                             },
-                            child: const Text('Return back to Sign in',
+                            child: const Text('Return back to Login',
                                 style: TextStyle(color: nusBlue)),
                           ),
                           SizedBox(height: 12.0),

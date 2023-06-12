@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freshsoc/screens/authenticate/forgot_password.dart';
 import 'package:freshsoc/screens/authenticate/sign_in.dart';
 import 'package:freshsoc/screens/authenticate/register.dart';
 import 'package:freshsoc/screens/authenticate/verification.dart';
@@ -23,6 +24,8 @@ class _AuthenticateState extends State<Authenticate> {
       return SignIn(switchAuthScreen: switchAuthScreen);
     } else if (authScreen == 'register') {
       return Register(switchAuthScreen: switchAuthScreen);
+    } else if (authScreen == 'forgot_password') {
+      return ForgotPassword(switchAuthScreen: switchAuthScreen);
     } else {
       return Verification(switchAuthScreen: switchAuthScreen);
     }

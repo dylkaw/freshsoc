@@ -134,13 +134,7 @@ class _SignInState extends State<SignIn> {
                         ),
                         TextButton(
                           onPressed: () {
-                            // Implement Forgot Password functionality here
-                            // For simplicity, we can show a snackbar with a message
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Forgot Password Clicked'),
-                              ),
-                            );
+                            widget.switchAuthScreen('forgot_password');
                           },
                           child: const Text(
                             'Forgot Password?',
