@@ -35,101 +35,102 @@ class _CreatePostState extends State<CreatePost> {
           centerTitle: true,
           leading: const BackButton(),
         ),
-        body: Container(
-            padding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 35.0),
-            child: Form(
-                key: _formKey,
-                child: Column(children: [
-                  const SizedBox(height: 15.0),
-                  TextFormField(
-                      decoration: textInputDecoration.copyWith(
-                        label: const Text('Title'),
-                      ),
-                      validator: (val) {
-                        if (val!.isEmpty) {
-                          return 'Please enter a title';
-                        } else {
-                          return null;
+        body: SingleChildScrollView(
+          child: Container(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 35.0),
+              child: Form(
+                  key: _formKey,
+                  child: Column(children: [
+                    const SizedBox(height: 15.0),
+                    TextFormField(
+                        decoration: textInputDecoration.copyWith(
+                          label: const Text('Title'),
+                        ),
+                        validator: (val) {
+                          if (val!.isEmpty) {
+                            return 'Please enter a title';
+                          } else {
+                            return null;
+                          }
+                        },
+                        onChanged: (val) {
+                          setState(() => title = val);
+                        }),
+                    const SizedBox(height: 15.0),
+                    DropdownButtonFormField(
+                        value: "Discussion",
+                        decoration: textInputDecoration.copyWith(
+                          label: const Text("Category"),
+                        ),
+                        items: const [
+                          DropdownMenuItem(
+                              value: "Discussion", child: Text("Discussion")),
+                          DropdownMenuItem(
+                              value: "Project", child: Text("Project")),
+                          DropdownMenuItem(
+                              value: "Advice", child: Text("Advice")),
+                          DropdownMenuItem(
+                              value: "Hackathon", child: Text("Hackathon")),
+                          DropdownMenuItem(
+                              value: "Hobbies", child: Text("Hobbies")),
+                        ],
+                        onChanged: (val) {
+                          setState(() => category = val as String);
+                        }),
+                    const SizedBox(height: 15.0),
+                    TextFormField(
+                        decoration: textInputDecoration.copyWith(
+                          label: const Text('Body Text (optional)'),
+                        ),
+                        maxLines: 10,
+                        onChanged: (val) {
+                          setState(() => bodyText = val);
+                        }),
+                    const SizedBox(height: 15.0),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: nusBlue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          )),
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          await DatabaseService(user: _firebaseAuth.currentUser)
+                              .createPost(title, category, bodyText);
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text(
+                                    'Post Created!',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  content: Text(
+                                    "Title: $title",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () =>
+                                            Navigator.popAndPushNamed(
+                                                context, '/socialize'),
+                                        child: const Text(
+                                          'Return to SoCialize',
+                                          textAlign: TextAlign.center,
+                                        ))
+                                  ],
+                                );
+                              });
                         }
                       },
-                      onChanged: (val) {
-                        setState(() => title = val);
-                      }),
-                  const SizedBox(height: 15.0),
-                  DropdownButtonFormField(
-                      value: "Discussion",
-                      decoration: textInputDecoration.copyWith(
-                        label: const Text("Category"),
+                      child: const Text(
+                        'SUBMIT',
+                        style: TextStyle(color: Colors.white),
                       ),
-                      items: const [
-                        DropdownMenuItem(
-                            value: "Discussion", child: Text("Discussion")),
-                        DropdownMenuItem(
-                            value: "Project", child: Text("Project")),
-                        DropdownMenuItem(
-                            value: "Advice", child: Text("Advice")),
-                        DropdownMenuItem(
-                            value: "Hackathon", child: Text("Hackathon")),
-                        DropdownMenuItem(
-                            value: "Hobbies", child: Text("Hobbies")),
-                      ],
-                      onChanged: (val) {
-                        setState(() => category = val as String);
-                      }),
-                  const SizedBox(height: 15.0),
-                  TextFormField(
-                      decoration: textInputDecoration.copyWith(
-                        label: const Text('Body Text (optional)'),
-                      ),
-                      maxLines: 10,
-                      onChanged: (val) {
-                        setState(() => bodyText = val);
-                      }),
-                  const SizedBox(height: 15.0),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: nusBlue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        )),
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        await DatabaseService(user: _firebaseAuth.currentUser)
-                            .createPost(title, category, bodyText);
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text(
-                                  'Post Created!',
-                                  textAlign: TextAlign.center,
-                                ),
-                                content: Text(
-                                  "Title: $title",
-                                  textAlign: TextAlign.center,
-                                ),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text(
-                                        'Return to SoCialize',
-                                        textAlign: TextAlign.center,
-                                      ))
-                                ],
-                              );
-                            });
-                      }
-                    },
-                    child: const Text(
-                      'SUBMIT',
-                      style: TextStyle(color: Colors.white),
                     ),
-                  ),
-                  SizedBox(height: 12.0),
-                ]))));
+                    SizedBox(height: 12.0),
+                  ]))),
+        ));
   }
 }
