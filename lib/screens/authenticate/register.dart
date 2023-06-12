@@ -90,7 +90,10 @@ class _RegisterState extends State<Register> {
                               ),
                               validator: (val) {
                                 if (val!.isEmpty) {
-                                  return 'Please enter a valid email';
+                                  return 'Please enter an email';
+                                } else if (!val.endsWith('@u.nus.edu') &&
+                                    !val.endsWith('@comp.nus.edu.sg')) {
+                                  return 'Email domain should be @u.nus.edu or @comp.nus.edu.sg';
                                 } else {
                                   return null;
                                 }
