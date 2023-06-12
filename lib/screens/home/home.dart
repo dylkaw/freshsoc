@@ -31,32 +31,32 @@ class Home extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.33,
+            height: MediaQuery.of(context).size.height * 0.4,
             child: Padding(
               padding: EdgeInsets.all(20),
               child: Container(
-                color: nusBlue,
+                color: Color.fromRGBO(0, 61, 124, 0.66),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       // Profile picture
                       CircleAvatar(
-                          radius: 50.0,
+                          radius: 70.0,
                           // To implement using user's profile picture in database
                           backgroundImage:
                               AssetImage('assets/images/soccat.png')),
                       const SizedBox(height: 10.0),
                       // User's name
                       Text(
-                        user?.name ?? '',
-                        style: const TextStyle(fontSize: 20.0),
+                        user?.name ?? 'Student',
+                        style: const TextStyle(fontSize: 24.0),
                       ),
                       const SizedBox(height: 5.0),
                       // User's course
                       Text(
-                        user?.course ?? '',
-                        style: const TextStyle(fontSize: 16.0),
+                        user?.course ?? 'Course',
+                        style: const TextStyle(fontSize: 20.0),
                       ),
                     ],
                   ),
