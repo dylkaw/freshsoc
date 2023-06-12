@@ -120,12 +120,30 @@ class _SignInState extends State<SignIn> {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
+                        SizedBox(
+                          height: 5,
+                        ),
                         TextButton(
                           onPressed: () {
                             widget.switchAuthScreen('register');
                           },
                           child: const Text(
-                            'Create account',
+                            'Create new account',
+                            style: TextStyle(color: nusBlue),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            // Implement Forgot Password functionality here
+                            // For simplicity, we can show a snackbar with a message
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Forgot Password Clicked'),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Forgot Password?',
                             style: TextStyle(color: nusBlue),
                           ),
                         ),
