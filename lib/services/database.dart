@@ -42,7 +42,8 @@ class DatabaseService {
   }
 
   Future<List<PostModel>> allPosts() async {
-    final snapshot = await postCollection.get();
+    final snapshot =
+        await postCollection.orderBy('dateTime', descending: true).get();
     final postData = snapshot.docs
         .map((e) => PostModel.fromSnapshot(e.data() as Map<String, dynamic>))
         .toList();
