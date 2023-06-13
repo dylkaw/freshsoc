@@ -32,8 +32,7 @@ class _PostCardState extends State<PostCard> {
     return Container(
         padding: const EdgeInsets.all(8.0),
         width: size.width * 0.95,
-        height: size.height * 0.18,
-        margin: const EdgeInsets.all((10)),
+        margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
         decoration: const BoxDecoration(
           color: Color(0xFF94AEC8),
           borderRadius: BorderRadius.all(Radius.circular(10)),
