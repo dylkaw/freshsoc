@@ -1,17 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:freshsoc/models/user_model.dart';
-import 'package:freshsoc/services/auth.dart';
-import 'package:freshsoc/services/database.dart';
-import 'package:freshsoc/shared/constants.dart';
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/material.dart";
+import "package:freshsoc/screens/home/components/profile_card.dart";
+import "package:freshsoc/services/auth.dart";
+import "package:freshsoc/services/database.dart";
+import "package:freshsoc/shared/constants.dart";
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
-  final AuthService _auth = AuthService();
+  Home({super.key});
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
-    final UserModel? user = Provider.of<UserModel?>(context);
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -39,38 +40,8 @@ class Home extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.4,
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Container(
-                color: Color.fromRGBO(0, 61, 124, 0.66),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Profile picture
-                      CircleAvatar(
-                          radius: 70.0,
-                          // To implement using user's profile picture in database
-                          backgroundImage:
-                              AssetImage('assets/images/soccat.png')),
-                      const SizedBox(height: 10.0),
-                      // User's name
-                      Text(
-                        user?.name ?? 'Student',
-                        style: const TextStyle(fontSize: 24.0),
-                      ),
-                      const SizedBox(height: 5.0),
-                      // User's course
-                      Text(
-                        user?.course ?? 'Course',
-                        style: const TextStyle(fontSize: 20.0),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            height: MediaQuery.of(context).size.height * 0.45,
+            child: ProfileCard(user: _auth.currentUser),
           ),
           const SizedBox(height: 20.0),
         ],

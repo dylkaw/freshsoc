@@ -27,8 +27,41 @@ class _ProfileCardState extends State<ProfileCard> {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
             UserModel userData = snapshot.data as UserModel;
-            return Text(
-                "${userData.name} ${userData.email} ${userData.course}");
+            return Padding(
+              padding: EdgeInsets.all(20),
+              child: Container(
+                color: Color.fromRGBO(0, 61, 124, 0.66),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            'https://4.bp.blogspot.com/-pce7rOe1VpM/VfBa0G6H0EI/AAAAAAAABUM/ttEOVpQSQy8/s1600/1-welfare-bg.png'),
+                        // To implement user's avatar
+                        radius: 70,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        userData.name,
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        userData.course,
+                        style: TextStyle(fontSize: 20, color: Colors.black),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        userData.email,
+                        style: TextStyle(fontSize: 20, color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
           } else if (snapshot.hasError) {
             return Text(snapshot.error.toString());
           } else {
