@@ -6,8 +6,9 @@ import 'package:freshsoc/services/auth.dart';
 import 'package:freshsoc/services/database.dart';
 import 'package:freshsoc/shared/widgets/loading.dart';
 import 'package:provider/provider.dart';
-import 'package:image';
-
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ProfileCard extends StatefulWidget {
   final User? user;
@@ -37,10 +38,13 @@ class _ProfileCardState extends State<ProfileCard> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(userData.profilePictureUrl),
-                        radius: 70,
+                      GestureDetector(
+                        onTap: updateProfilePicture,
+                        child: CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(userData.profilePictureUrl),
+                          radius: 70,
+                        ),
                       ),
                       SizedBox(height: 10),
                       Text(
@@ -73,5 +77,30 @@ class _ProfileCardState extends State<ProfileCard> {
         }
       },
     );
+  }
+
+  Future<String?> updateProfilePicture() async {
+    // Let the user pick an image
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile == null) {
+      // The user cancelled the operation
+      return null;
+    }
+
+    // Create a reference to the location you want to upload to in Firebase Storage
+    Reference storageReference = FirebaseStorage.instance
+        .ref()
+        .child('profile_pics/${widget.user!.uid}');
+
+    // Upload the file to Firebase Storage
+    UploadTask uploadTask = storageReference.putFile(File(pickedFile.path));
+
+    // Snapshot of the uploading task
+    TaskSnapshot snapshot = await uploadTask.whenComplete(() {});
+    final String downloadUrl = await snapshot.ref.getDownloadURL();
+
+    // Return the URL of the uploaded image
+    return downloadUrl;
   }
 }

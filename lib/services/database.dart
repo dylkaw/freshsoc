@@ -15,6 +15,8 @@ class DatabaseService {
       'name': name,
       'email': email,
       'course': course,
+      'profilePictureUrl':
+          'https://4.bp.blogspot.com/-pce7rOe1VpM/VfBa0G6H0EI/AAAAAAAABUM/ttEOVpQSQy8/s1600/1-welfare-bg.png',
     });
   }
 
@@ -31,5 +33,12 @@ class DatabaseService {
         profilePictureUrl:
             'https://4.bp.blogspot.com/-pce7rOe1VpM/VfBa0G6H0EI/AAAAAAAABUM/ttEOVpQSQy8/s1600/1-welfare-bg.png');
     return testData;
+  }
+
+  Future<void> updateUserProfilePicture(
+      String uid, String newProfilePicUrl) async {
+    return userCollection
+        .doc(uid)
+        .update({'profilePictureUrl': newProfilePicUrl});
   }
 }
