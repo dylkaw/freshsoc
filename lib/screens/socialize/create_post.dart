@@ -63,18 +63,10 @@ class _CreatePostState extends State<CreatePost> {
                         decoration: textInputDecoration.copyWith(
                           label: const Text("Category"),
                         ),
-                        items: const [
-                          DropdownMenuItem(
-                              value: "Discussion", child: Text("Discussion")),
-                          DropdownMenuItem(
-                              value: "Project", child: Text("Project")),
-                          DropdownMenuItem(
-                              value: "Advice", child: Text("Advice")),
-                          DropdownMenuItem(
-                              value: "Hackathon", child: Text("Hackathon")),
-                          DropdownMenuItem(
-                              value: "Hobbies", child: Text("Hobbies")),
-                        ],
+                        items: categories
+                            .map((e) =>
+                                DropdownMenuItem(value: e, child: Text(e)))
+                            .toList(),
                         onChanged: (val) {
                           setState(() => category = val as String);
                         }),

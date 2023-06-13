@@ -8,3 +8,5 @@ const textInputDecoration = InputDecoration(
 
 const nusOrange = Color(0xFFEF7C00);
 const nusBlue = Color(0xFF003D7C);
+
+const categories = ["Discussion", "Project", "Advice", "Hackathon", "Hobbies"];
