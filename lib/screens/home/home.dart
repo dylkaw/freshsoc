@@ -15,27 +15,24 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(
-          'Homepage',
-        ),
-        backgroundColor: nusOrange,
-        elevation: 0.0,
-        actions: <Widget>[
-          TextButton.icon(
-            icon: const Icon(
-              Icons.person,
-              color: Colors.black,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(75),
+        child: AppBar(
+          flexibleSpace: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Homepage',
+                  style: TextStyle(fontSize: 30, color: Colors.white),
+                ),
+              ],
             ),
-            label: const Text(
-              'Logout',
-              style: TextStyle(color: Colors.black),
-            ),
-            onPressed: () async {
-              await _auth.signOut();
-            },
           ),
-        ],
+          centerTitle: true,
+          backgroundColor: nusOrange,
+          elevation: 0.0,
+        ),
       ),
       body: Column(
         children: [

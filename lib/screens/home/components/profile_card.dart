@@ -6,6 +6,8 @@ import 'package:freshsoc/services/auth.dart';
 import 'package:freshsoc/services/database.dart';
 import 'package:freshsoc/shared/widgets/loading.dart';
 import 'package:provider/provider.dart';
+import 'package:image';
+
 
 class ProfileCard extends StatefulWidget {
   final User? user;
@@ -36,9 +38,8 @@ class _ProfileCardState extends State<ProfileCard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            'https://4.bp.blogspot.com/-pce7rOe1VpM/VfBa0G6H0EI/AAAAAAAABUM/ttEOVpQSQy8/s1600/1-welfare-bg.png'),
-                        // To implement user's avatar
+                        backgroundImage:
+                            NetworkImage(userData.profilePictureUrl),
                         radius: 70,
                       ),
                       SizedBox(height: 10),

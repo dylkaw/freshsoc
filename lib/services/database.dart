@@ -24,7 +24,12 @@ class DatabaseService {
     final testData = UserModel.fromSnapshot(
         snapshot.data() as Map<String, dynamic>, user!.emailVerified);
     final userData = UserModel(
-        name: "helo", course: "coursade", email: "email", emailVerified: true);
+        name: "helo",
+        course: "coursade",
+        email: "email",
+        emailVerified: true,
+        profilePictureUrl:
+            'https://4.bp.blogspot.com/-pce7rOe1VpM/VfBa0G6H0EI/AAAAAAAABUM/ttEOVpQSQy8/s1600/1-welfare-bg.png');
     return testData;
   }
 }
