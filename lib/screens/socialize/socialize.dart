@@ -82,7 +82,8 @@ class _SocializeState extends State<Socialize> {
                             DateTime formattedDate = DateTime.parse(
                                 postData.dateTime.toDate().toString());
                             return PostCard(
-                                uid: postData.uid,
+                                name: postData.name,
+                                course: postData.course,
                                 dateTime: formattedDate,
                                 title: postData.title,
                                 category: postData.category,

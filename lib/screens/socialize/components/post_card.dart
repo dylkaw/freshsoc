@@ -4,7 +4,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:intl/intl.dart';
 
 class PostCard extends StatefulWidget {
-  final String uid;
+  final String name;
+  final String course;
   final DateTime dateTime;
   final String title;
   final String category;
@@ -13,7 +14,8 @@ class PostCard extends StatefulWidget {
 
   PostCard(
       {super.key,
-      required this.uid,
+      required this.name,
+      required this.course,
       required this.dateTime,
       required this.title,
       required this.category,
@@ -43,7 +45,7 @@ class _PostCardState extends State<PostCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(widget.uid),
+                Text("${widget.name} - ${widget.course}"),
                 Container(
                   padding: const EdgeInsets.all(3.0),
                   decoration: const BoxDecoration(

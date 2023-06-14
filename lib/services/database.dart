@@ -31,8 +31,11 @@ class DatabaseService {
   }
 
   Future createPost(String title, String category, String bodyText) async {
+    final userData = await getUserDetails();
     return await postCollection.doc().set({
       'uid': user!.uid,
+      'name': userData.name,
+      'course': userData.course,
       'dateTime': DateTime.now(),
       'title': title,
       'category': category,
