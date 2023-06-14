@@ -41,12 +41,23 @@ class DatabaseService {
     });
   }
 
-  Future<List<PostModel>> allPosts() async {
-    final snapshot =
-        await postCollection.orderBy('dateTime', descending: true).get();
-    final postData = snapshot.docs
-        .map((e) => PostModel.fromSnapshot(e.data() as Map<String, dynamic>))
-        .toList();
-    return postData;
+  Future<List<PostModel>> getPosts({required String category}) async {
+    if (category == "All categories") {
+      final snapshot =
+          await postCollection.orderBy('dateTime', descending: true).get();
+      final postData = snapshot.docs
+          .map((e) => PostModel.fromSnapshot(e.data() as Map<String, dynamic>))
+          .toList();
+      return postData;
+    } else {
+      final snapshot = await postCollection
+          .where("category", isEqualTo: category)
+          .orderBy('dateTime', descending: true)
+          .get();
+      final postData = snapshot.docs
+          .map((e) => PostModel.fromSnapshot(e.data() as Map<String, dynamic>))
+          .toList();
+      return postData;
+    }
   }
 }

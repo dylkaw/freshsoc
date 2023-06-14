@@ -17,6 +17,8 @@ class Socialize extends StatefulWidget {
 
 class _SocializeState extends State<Socialize> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _formKey = GlobalKey<FormState>();
+  String categoryFilter = 'All categories';
 
   @override
   Widget build(BuildContext context) {
@@ -30,42 +32,61 @@ class _SocializeState extends State<Socialize> {
       ),
       body: Column(
         children: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: nusBlue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                )),
-            onPressed: () async {
-              await Navigator.pushNamed(context, CreatePost.routeName);
-              setState(() {});
-            },
-            child: const Text(
-              'CREATE POST',
-              style: TextStyle(color: Colors.white),
+          Row(children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+                child: DropdownButtonFormField(
+                    value: "All categories",
+                    decoration: textInputDecoration,
+                    isExpanded: true,
+                    items: categoryFilters
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                        .toList(),
+                    onChanged: (val) {
+                      setState(() => categoryFilter = val as String);
+                    }),
+              ),
             ),
-          ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: nusBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  )),
+              onPressed: () async {
+                await Navigator.pushNamed(context, CreatePost.routeName);
+                setState(() {});
+              },
+              child: const Text(
+                'CREATE POST',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ]),
           Expanded(
             child: FutureBuilder(
-              future: _db.allPosts(),
+              future: _db.getPosts(category: categoryFilter),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {
-                    return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: ((context, index) {
-                          PostModel postData = snapshot.data![index];
-                          DateTime formattedDate = DateTime.parse(
-                              postData.dateTime.toDate().toString());
-                          return PostCard(
-                              uid: postData.uid,
-                              dateTime: formattedDate,
-                              title: postData.title,
-                              category: postData.category,
-                              bodyText: postData.bodyText,
-                              likes: postData.likes);
-                        }));
+                    return ListTileTheme.merge(
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: ((context, index) {
+                            PostModel postData = snapshot.data![index];
+                            DateTime formattedDate = DateTime.parse(
+                                postData.dateTime.toDate().toString());
+                            return PostCard(
+                                uid: postData.uid,
+                                dateTime: formattedDate,
+                                title: postData.title,
+                                category: postData.category,
+                                bodyText: postData.bodyText,
+                                likes: postData.likes);
+                          })),
+                    );
                   } else if (snapshot.hasError) {
                     return Text(snapshot.error.toString());
                   } else {
