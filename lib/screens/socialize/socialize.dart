@@ -48,19 +48,22 @@ class _SocializeState extends State<Socialize> {
                     }),
               ),
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: nusBlue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  )),
-              onPressed: () async {
-                await Navigator.pushNamed(context, CreatePost.routeName);
-                setState(() {});
-              },
-              child: const Text(
-                'CREATE POST',
-                style: TextStyle(color: Colors.white),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 10, 5),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: nusBlue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    )),
+                onPressed: () async {
+                  await Navigator.pushNamed(context, CreatePost.routeName);
+                  setState(() {});
+                },
+                child: const Text(
+                  'CREATE POST',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ]),
