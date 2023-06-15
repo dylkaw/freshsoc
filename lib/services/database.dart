@@ -31,8 +31,11 @@ class DatabaseService {
   }
 
   Future createPost(String title, String category, String bodyText) async {
+    final userData = await getUserDetails();
     return await postCollection.doc().set({
       'uid': user!.uid,
+      'name': userData.name,
+      'course': userData.course,
       'dateTime': DateTime.now(),
       'title': title,
       'category': category,
@@ -41,11 +44,23 @@ class DatabaseService {
     });
   }
 
-  Future<List<PostModel>> allPosts() async {
-    final snapshot = await postCollection.get();
-    final postData = snapshot.docs
-        .map((e) => PostModel.fromSnapshot(e.data() as Map<String, dynamic>))
-        .toList();
-    return postData;
+  Future<List<PostModel>> getPosts({required String category}) async {
+    if (category == "All categories") {
+      final snapshot =
+          await postCollection.orderBy('dateTime', descending: true).get();
+      final postData = snapshot.docs
+          .map((e) => PostModel.fromSnapshot(e.data() as Map<String, dynamic>))
+          .toList();
+      return postData;
+    } else {
+      final snapshot = await postCollection
+          .where("category", isEqualTo: category)
+          .orderBy('dateTime', descending: true)
+          .get();
+      final postData = snapshot.docs
+          .map((e) => PostModel.fromSnapshot(e.data() as Map<String, dynamic>))
+          .toList();
+      return postData;
+    }
   }
 }
