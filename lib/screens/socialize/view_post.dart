@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:freshsoc/screens/socialize/components/full_post.dart';
 import 'package:freshsoc/services/auth.dart';
 import 'package:freshsoc/services/database.dart';
 import 'package:freshsoc/shared/constants.dart';
@@ -20,31 +21,30 @@ class _ViewPostState extends State<ViewPost> {
 
   @override
   Widget build(BuildContext context) {
-    // data = data.isNotEmpty
-    //     ? data
-    //     : ModalRoute.of(context)?.settings.arguments as Map;
+    data = data.isNotEmpty
+        ? data
+        : ModalRoute.of(context)?.settings.arguments as Map;
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 234, 230, 229),
       appBar: AppBar(
         backgroundColor: nusOrange,
         elevation: 0.0,
-        title: const Text('SoCialize'),
+        title: const Text('View Post'),
         centerTitle: true,
         leading: const BackButton(),
       ),
       body: Column(
         children: <Widget>[
-          Expanded(
-              child: ListView(
-            children: <Widget>[
-              const Text("Message1"),
-              const Text("Message2"),
-              const Text("Message3"),
-              const Text("Message4"),
-              const Text("Message5"),
-            ],
-          )),
+          FullPost(
+              name: data['name'],
+              course: data['course'],
+              dateTime: data['dateTime'],
+              title: data['title'],
+              category: data["category"],
+              bodyText: data["bodyText"],
+              likes: data["likes"]),
+          Expanded(child: Container()),
           Container(
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -59,12 +59,14 @@ class _ViewPostState extends State<ViewPost> {
                     maxLines: 10,
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(15, 0, 0, 10),
+                      contentPadding: EdgeInsets.fromLTRB(15, 0, 5, 10),
                       suffix: TextButton(
                         onPressed: () {},
                         style: ButtonStyle(
                             padding: MaterialStateProperty.all<EdgeInsets>(
                                 EdgeInsets.zero),
+                            minimumSize:
+                                MaterialStateProperty.all<Size>(Size.zero),
                             overlayColor:
                                 MaterialStateProperty.all(Colors.transparent),
                             splashFactory: NoSplash.splashFactory),

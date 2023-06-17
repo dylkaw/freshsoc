@@ -4,7 +4,7 @@ import 'package:freshsoc/models/user_model.dart';
 import 'package:freshsoc/screens/authenticate/authenticate.dart';
 import 'package:freshsoc/screens/home/home.dart';
 import 'package:freshsoc/screens/navigator.dart';
-import 'package:freshsoc/screens/socialize/post_view.dart';
+import 'package:freshsoc/screens/socialize/view_post.dart';
 import 'package:provider/provider.dart';
 
 class Wrapper extends StatelessWidget {
@@ -18,8 +18,8 @@ class Wrapper extends StatelessWidget {
     if (user == null || !user.emailVerified) {
       return Authenticate();
     } else {
-      // return NavigationController(selectedIndex: 0);
-      return ViewPost();
+      return NavigationController(selectedIndex: 0);
+      // return ViewPost();
     }
   }
 }
