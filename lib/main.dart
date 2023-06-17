@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:freshsoc/firebase_options.dart';
 import 'package:freshsoc/screens/navigator.dart';
 import 'package:freshsoc/screens/socialize/create_post.dart';
+import 'package:freshsoc/screens/socialize/post_view.dart';
 import 'package:freshsoc/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:freshsoc/services/auth.dart';
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(fontFamily: 'Frutiger'),
         routes: {
           '/socialize': (context) => NavigationController(selectedIndex: 1),
-          CreatePost.routeName: (context) => const CreatePost()
+          CreatePost.routeName: (context) => const CreatePost(),
+          ViewPost.routeName: (context) => const ViewPost()
         },
       ),
     );

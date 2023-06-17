@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:freshsoc/models/user_model.dart';
 import 'package:freshsoc/services/auth.dart';
 import 'package:freshsoc/services/database.dart';
 import 'package:freshsoc/shared/constants.dart';
-import 'package:freshsoc/shared/widgets/loading.dart';
 
 class CreatePost extends StatefulWidget {
   const CreatePost({super.key});
