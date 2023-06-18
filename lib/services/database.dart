@@ -41,4 +41,15 @@ class DatabaseService {
         .doc(uid)
         .update({'profilePictureUrl': newProfilePicUrl});
   }
+
+  Future<void> updateUserNUSNETID(String uid, String nusnetId) async {
+    return userCollection.doc(uid).update({'nusnetId': nusnetId});
+  }
+
+  Future<void> updateUserMatriculationNumber(
+      String uid, String matriculationNumber) async {
+    return userCollection
+        .doc(uid)
+        .update({'matriculationNumber': matriculationNumber});
+  }
 }
