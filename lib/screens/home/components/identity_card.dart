@@ -86,10 +86,18 @@ class _IdentityCardState extends State<IdentityCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: TextFormField(
-                controller: _nusnetIdController,
-                decoration: InputDecoration(labelText: 'NUSNET ID'),
-                enabled: _isEditingNusnetId,
+              child: FocusScope(
+                node: FocusScopeNode(canRequestFocus: _isEditingNusnetId),
+                child: TextFormField(
+                  controller: _nusnetIdController,
+                  decoration: InputDecoration(
+                    labelText: 'NUSNET ID',
+                    labelStyle: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                  enabled: true, // Always enable the field
+                ),
               ),
             ),
             SizedBox(width: 10),
@@ -104,10 +112,19 @@ class _IdentityCardState extends State<IdentityCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: TextFormField(
-                controller: _matriculationNumberController,
-                decoration: InputDecoration(labelText: 'Matriculation Number'),
-                enabled: _isEditingMatriculationNumber,
+              child: FocusScope(
+                node: FocusScopeNode(
+                    canRequestFocus: _isEditingMatriculationNumber),
+                child: TextFormField(
+                  controller: _matriculationNumberController,
+                  decoration: InputDecoration(
+                    labelText: 'Matriculation Number',
+                    labelStyle: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                  enabled: true, // Always enable the field
+                ),
               ),
             ),
             SizedBox(width: 10),
