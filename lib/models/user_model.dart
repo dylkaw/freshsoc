@@ -21,7 +21,7 @@ class UserModel {
       course: document["course"],
       email: document["email"],
       emailVerified: emailVerified,
-      profilePictureUrl:
+      profilePictureUrl: document["profilePictureUrl"] ??
           "https://4.bp.blogspot.com/-pce7rOe1VpM/VfBa0G6H0EI/AAAAAAAABUM/ttEOVpQSQy8/s1600/1-welfare-bg.png",
     );
   }
