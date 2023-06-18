@@ -17,7 +17,7 @@ class Wrapper extends StatelessWidget {
     if (user == null || !user.emailVerified) {
       return Authenticate();
     } else {
-      return NavigationController(selectedIndex: 0);
+      return NavigationController();
     }
   }
 }

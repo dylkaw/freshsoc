@@ -5,19 +5,19 @@ import 'package:freshsoc/screens/home/home.dart';
 import 'package:freshsoc/screens/settings/settings.dart';
 import 'package:freshsoc/screens/soccess/soccess.dart';
 import 'package:freshsoc/screens/socchat/socchat.dart';
-import 'package:freshsoc/screens/socialize/create_post.dart';
 import 'package:freshsoc/screens/socialize/socialize.dart';
 
 class NavigationController extends StatefulWidget {
-  int selectedIndex;
-  NavigationController({super.key, required this.selectedIndex});
+  const NavigationController({super.key});
 
   @override
   State<NavigationController> createState() => _NavigationControllerState();
 }
 
 class _NavigationControllerState extends State<NavigationController> {
-  final List<Widget> _screens = [
+  int _selectedIndex = 0;
+
+  List<Widget> _screens = [
     Home(),
     Socialize(),
     Socchat(),
@@ -26,8 +26,9 @@ class _NavigationControllerState extends State<NavigationController> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screens[widget.selectedIndex],
+    return SafeArea(
+        child: Scaffold(
+      body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.black,
@@ -46,11 +47,11 @@ class _NavigationControllerState extends State<NavigationController> {
         ],
         onTap: (i) {
           setState(() {
-            widget.selectedIndex = i;
+            _selectedIndex = i;
           });
         },
-        currentIndex: widget.selectedIndex,
+        currentIndex: _selectedIndex,
       ),
-    );
+    ));
   }
 }
