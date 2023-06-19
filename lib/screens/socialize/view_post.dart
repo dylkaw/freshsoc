@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:freshsoc/models/reply_model.dart';
 import 'package:freshsoc/screens/socialize/components/full_post.dart';
 import 'package:freshsoc/screens/socialize/components/reply_card.dart';
 import 'package:freshsoc/services/auth.dart';
 import 'package:freshsoc/services/database.dart';
 import 'package:freshsoc/shared/constants.dart';
+import 'package:freshsoc/shared/widgets/loading.dart';
 
 class ViewPost extends StatefulWidget {
   const ViewPost({super.key});
@@ -48,19 +50,44 @@ class _ViewPostState extends State<ViewPost> {
               category: data["category"],
               bodyText: data["bodyText"],
               likes: data["likes"]),
-          ReplyCard(
-              name: 'name',
-              course: 'course',
-              dateTime: DateTime.now(),
-              reply: 'reply'),
-          Expanded(child: Container()),
+          Expanded(
+            child: FutureBuilder(
+              future: db.getReplies(data['postId']),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    return ListTileTheme.merge(
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: ((context, index) {
+                            ReplyModel replyData = snapshot.data![index];
+                            DateTime formattedDate = DateTime.parse(
+                                replyData.dateTime.toDate().toString());
+                            return ReplyCard(
+                                name: replyData.name,
+                                course: replyData.course,
+                                dateTime: formattedDate,
+                                reply: replyData.reply);
+                          })),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  } else {
+                    return Text("Something went wrong");
+                  }
+                } else {
+                  return Loading();
+                }
+              },
+            ),
+          ),
           Container(
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 const SizedBox(
                   width: 10,
                 ),
-                // First child is enter comment text input
                 Expanded(
                   child: Form(
                     key: _formKey,
@@ -77,7 +104,7 @@ class _ViewPostState extends State<ViewPost> {
                         suffix: TextButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              db.addReply(data['postId'], reply);
+                              await db.addReply(data['postId'], reply);
                               replyText.clear();
                               setState(() => reply = '');
                             }
@@ -108,7 +135,7 @@ class _ViewPostState extends State<ViewPost> {
                         ),
                       ),
                       onChanged: (val) {
-                        setState(() => reply = val);
+                        reply = val;
                       },
                     ),
                   ),

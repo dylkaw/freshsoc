@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:freshsoc/screens/socialize/view_post.dart';
 import 'package:intl/intl.dart';
+import 'package:readmore/readmore.dart';
 
 class ReplyCard extends StatefulWidget {
   final String name;
@@ -44,10 +45,16 @@ class _ReplyCardState extends State<ReplyCard> {
             style: const TextStyle(color: Color(0xFF8A8A8A)),
           ),
           const SizedBox(height: 5.0),
-          Text(
+          ReadMoreText(
             widget.reply,
-            maxLines: 4,
-            overflow: TextOverflow.ellipsis,
+            trimLines: 4,
+            trimMode: TrimMode.Line,
+            trimCollapsedText: 'more',
+            trimExpandedText: ' less',
+            moreStyle: const TextStyle(
+                color: Color(0xFF8A8A8A), fontWeight: FontWeight.bold),
+            lessStyle: const TextStyle(
+                color: Color(0xFF8A8A8A), fontWeight: FontWeight.bold),
           ),
         ],
       ),
