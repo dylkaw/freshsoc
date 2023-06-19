@@ -28,24 +28,12 @@ class _CreatePostState extends State<CreatePost> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 234, 230, 229),
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(75),
-          child: AppBar(
-            flexibleSpace: SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Create Post',
-                    style: TextStyle(fontSize: 30, color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
-            centerTitle: true,
-            backgroundColor: nusOrange,
-            elevation: 0.0,
-          ),
+        appBar: AppBar(
+          backgroundColor: nusOrange,
+          elevation: 0.0,
+          title: const Text('Create Post'),
+          centerTitle: true,
+          leading: const BackButton(),
         ),
         body: SingleChildScrollView(
           child: Container(
