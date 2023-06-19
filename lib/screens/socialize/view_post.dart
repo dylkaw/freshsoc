@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:freshsoc/screens/socialize/components/full_post.dart';
+import 'package:freshsoc/screens/socialize/components/reply_card.dart';
 import 'package:freshsoc/services/auth.dart';
 import 'package:freshsoc/services/database.dart';
 import 'package:freshsoc/shared/constants.dart';
@@ -47,6 +48,11 @@ class _ViewPostState extends State<ViewPost> {
               category: data["category"],
               bodyText: data["bodyText"],
               likes: data["likes"]),
+          ReplyCard(
+              name: 'name',
+              course: 'course',
+              dateTime: DateTime.now(),
+              reply: 'reply'),
           Expanded(child: Container()),
           Container(
               padding: const EdgeInsets.symmetric(vertical: 2.0),
@@ -64,7 +70,7 @@ class _ViewPostState extends State<ViewPost> {
                           reply.isEmpty ? "Reply cannot be empty!" : null,
                       controller: replyText,
                       minLines: 1,
-                      maxLines: 10,
+                      maxLines: 8,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(15, 0, 5, 10),

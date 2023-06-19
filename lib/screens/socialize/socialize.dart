@@ -58,7 +58,6 @@ class _SocializeState extends State<Socialize> {
                       borderRadius: BorderRadius.circular(20.0),
                     )),
                 onPressed: () async {
-                  //TODO: CHANGE BACK
                   await Navigator.pushNamed(context, CreatePost.routeName);
                   setState(() {});
                 },
