@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostModel {
+  final String postId;
   final String uid;
   final String name;
   final String course;
@@ -11,6 +12,7 @@ class PostModel {
   final int likes;
 
   PostModel({
+    required this.postId,
     required this.uid,
     required this.name,
     required this.course,
@@ -21,8 +23,9 @@ class PostModel {
     required this.likes,
   });
 
-  factory PostModel.fromSnapshot(Map<String, dynamic> document) {
+  factory PostModel.fromSnapshot(Map<String, dynamic> document, String postId) {
     return PostModel(
+        postId: postId,
         uid: document["uid"],
         name: document["name"],
         course: document["course"],

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freshsoc/models/post_model.dart';
+import 'package:freshsoc/models/reply_model.dart';
 import 'package:freshsoc/models/user_model.dart';
 
 class DatabaseService {
@@ -50,20 +51,52 @@ class DatabaseService {
     if (category == "All categories") {
       final snapshot =
           await postCollection.orderBy('dateTime', descending: true).get();
-      final postData = snapshot.docs
-          .map((e) => PostModel.fromSnapshot(e.data() as Map<String, dynamic>))
-          .toList();
+      final postData = snapshot.docs.map((e) {
+        String postId = e.reference.id;
+        return PostModel.fromSnapshot(e.data() as Map<String, dynamic>, postId);
+      }).toList();
       return postData;
     } else {
       final snapshot = await postCollection
           .where("category", isEqualTo: category)
           .orderBy('dateTime', descending: true)
           .get();
-      final postData = snapshot.docs
-          .map((e) => PostModel.fromSnapshot(e.data() as Map<String, dynamic>))
-          .toList();
+      final postData = snapshot.docs.map((e) {
+        String postId = e.reference.id;
+        return PostModel.fromSnapshot(e.data() as Map<String, dynamic>, postId);
+      }).toList();
       return postData;
     }
+  }
+
+  Future addReply(String postId, String reply) async {
+    final userData = await getUserDetails();
+    postCollection.doc(postId).collection("replies").doc().set({
+      'uid': user!.uid,
+      'name': userData.name,
+      'course': userData.course,
+      'dateTime': DateTime.now(),
+      'reply': reply,
+    });
+  }
+
+  Future<List<ReplyModel>> getReplies(String postId) async {
+    final snapshot = await postCollection
+        .doc(postId)
+        .collection("replies")
+        .orderBy('dateTime', descending: true)
+        .get();
+    final replyData = snapshot.docs
+        .map((e) => ReplyModel.fromSnapshot(e.data() as Map<String, dynamic>))
+        .toList();
+    return replyData;
+  }
+
+  Future<int> getNumReplies(String postId) async {
+    AggregateQuerySnapshot query =
+        await postCollection.doc(postId).collection('replies').count().get();
+    final numReplies = query.count;
+    return numReplies;
   }
 
   Future<void> updateUserProfilePicture(

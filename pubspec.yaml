@@ -44,6 +44,7 @@ dependencies:
   firebase_storage: ^11.2.2
   intl: ^0.18.1
   dropdown_search: ^5.0.6
+  readmore: ^2.2.0
 
 
 dev_dependencies:
