@@ -1,6 +1,7 @@
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:freshsoc/screens/home/components/profile_card.dart";
+import "package:freshsoc/screens/soccess/components/acad_progress.dart";
 import "package:freshsoc/services/auth.dart";
 import "package:freshsoc/services/database.dart";
 import "package:freshsoc/shared/constants.dart";
@@ -34,7 +35,9 @@ class Soccess extends StatelessWidget {
           elevation: 0.0,
         ),
       ),
-      body: ProfileCard(user: _auth.currentUser),
+      body: AcadProgress(
+        user: _auth.currentUser,
+      ),
     );
   }
 }
