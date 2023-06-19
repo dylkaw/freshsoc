@@ -79,11 +79,21 @@ class DatabaseService {
   }
 
   Future<List<ReplyModel>> getReplies(String postId) async {
-    final snapshot =
-        await postCollection.doc(postId).collection("replies").get();
+    final snapshot = await postCollection
+        .doc(postId)
+        .collection("replies")
+        .orderBy('dateTime', descending: true)
+        .get();
     final replyData = snapshot.docs
         .map((e) => ReplyModel.fromSnapshot(e.data() as Map<String, dynamic>))
         .toList();
     return replyData;
+  }
+
+  Future<int> getNumReplies(String postId) async {
+    AggregateQuerySnapshot query =
+        await postCollection.doc(postId).collection('replies').count().get();
+    final numReplies = query.count;
+    return numReplies;
   }
 }

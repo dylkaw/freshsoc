@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:freshsoc/services/database.dart';
 import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
 
 class FullPost extends StatefulWidget {
+  final String postId;
   final String name;
   final String course;
   final DateTime dateTime;
@@ -13,6 +16,7 @@ class FullPost extends StatefulWidget {
 
   FullPost(
       {super.key,
+      required this.postId,
       required this.name,
       required this.course,
       required this.dateTime,
@@ -26,9 +30,11 @@ class FullPost extends StatefulWidget {
 }
 
 class _FullPostState extends State<FullPost> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final db = DatabaseService(user: _auth.currentUser);
 
     return Container(
         padding: const EdgeInsets.all(8.0),
@@ -114,16 +120,31 @@ class _FullPostState extends State<FullPost> {
                           padding: EdgeInsets.zero,
                         ),
                         child: Row(
-                          children: const [
-                            Text(
-                              "0 Replies",
-                              style: TextStyle(
-                                  fontSize: 12.0, color: Color(0xFF8A8A8A)),
-                            ),
-                            SizedBox(
+                          children: [
+                            FutureBuilder(
+                                future: db.getNumReplies(widget.postId),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    if (snapshot.hasData) {
+                                      return Text(
+                                        "${snapshot.data} Replies",
+                                        style: const TextStyle(
+                                            color: Color(0xFF8A8A8A)),
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text(snapshot.error.toString());
+                                    } else {
+                                      return const Text("Something went wrong");
+                                    }
+                                  } else {
+                                    return const SizedBox(height: 13);
+                                  }
+                                }),
+                            const SizedBox(
                               width: 5,
                             ),
-                            Icon(
+                            const Icon(
                               Icons.comment_outlined,
                               size: 12.0,
                               color: Color(0xFF8A8A8A),

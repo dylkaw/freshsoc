@@ -43,6 +43,7 @@ class _ViewPostState extends State<ViewPost> {
       body: Column(
         children: <Widget>[
           FullPost(
+              postId: data['postId'],
               name: data['name'],
               course: data['course'],
               dateTime: data['dateTime'],

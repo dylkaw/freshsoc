@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:freshsoc/screens/socialize/view_post.dart';
+import 'package:freshsoc/services/database.dart';
+import 'package:freshsoc/shared/widgets/loading.dart';
 import 'package:intl/intl.dart';
 
 class PostCard extends StatefulWidget {
@@ -30,9 +33,12 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final db = DatabaseService(user: _auth.currentUser);
 
     return Container(
         padding: const EdgeInsets.all(8.0),
@@ -48,8 +54,8 @@ class _PostCardState extends State<PostCard> {
               minimumSize: MaterialStateProperty.all<Size>(Size.zero),
               foregroundColor: MaterialStateProperty.all(Colors.black),
               splashFactory: NoSplash.splashFactory),
-          onPressed: () {
-            Navigator.pushNamed(context, ViewPost.routeName, arguments: {
+          onPressed: () async {
+            await Navigator.pushNamed(context, ViewPost.routeName, arguments: {
               'postId': widget.postId,
               'name': widget.name,
               'course': widget.course,
@@ -59,6 +65,7 @@ class _PostCardState extends State<PostCard> {
               'bodyText': widget.bodyText,
               'likes': widget.likes
             });
+            setState(() {});
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,15 +139,32 @@ class _PostCardState extends State<PostCard> {
                             padding: EdgeInsets.zero,
                           ),
                           child: Row(
-                            children: const [
-                              Text(
-                                "0 Replies",
-                                style: TextStyle(color: Color(0xFF8A8A8A)),
-                              ),
-                              SizedBox(
+                            children: [
+                              FutureBuilder(
+                                  future: db.getNumReplies(widget.postId),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.done) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          "${snapshot.data} Replies",
+                                          style: const TextStyle(
+                                              color: Color(0xFF8A8A8A)),
+                                        );
+                                      } else if (snapshot.hasError) {
+                                        return Text(snapshot.error.toString());
+                                      } else {
+                                        return const Text(
+                                            "Something went wrong");
+                                      }
+                                    } else {
+                                      return SizedBox(height: 13);
+                                    }
+                                  }),
+                              const SizedBox(
                                 width: 5,
                               ),
-                              Icon(
+                              const Icon(
                                 Icons.comment_outlined,
                                 size: 12.0,
                                 color: Color(0xFF8A8A8A),
