@@ -5,6 +5,7 @@ import 'package:freshsoc/screens/socialize/view_post.dart';
 import 'package:intl/intl.dart';
 
 class PostCard extends StatefulWidget {
+  final String postId;
   final String name;
   final String course;
   final DateTime dateTime;
@@ -15,6 +16,7 @@ class PostCard extends StatefulWidget {
 
   PostCard(
       {super.key,
+      required this.postId,
       required this.name,
       required this.course,
       required this.dateTime,
@@ -48,6 +50,7 @@ class _PostCardState extends State<PostCard> {
               splashFactory: NoSplash.splashFactory),
           onPressed: () {
             Navigator.pushNamed(context, ViewPost.routeName, arguments: {
+              'postId': widget.postId,
               'name': widget.name,
               'course': widget.course,
               'category': widget.category,

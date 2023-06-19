@@ -4,6 +4,7 @@ import "package:freshsoc/models/post_model.dart";
 import "package:freshsoc/screens/home/components/profile_card.dart";
 import "package:freshsoc/screens/socialize/components/post_card.dart";
 import "package:freshsoc/screens/socialize/create_post.dart";
+import "package:freshsoc/screens/socialize/view_post.dart";
 import "package:freshsoc/services/database.dart";
 import "package:freshsoc/shared/constants.dart";
 import "package:freshsoc/shared/widgets/loading.dart";
@@ -22,7 +23,7 @@ class _SocializeState extends State<Socialize> {
 
   @override
   Widget build(BuildContext context) {
-    final _db = DatabaseService(user: _auth.currentUser);
+    final db = DatabaseService(user: _auth.currentUser);
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 234, 230, 229),
       appBar: AppBar(
@@ -57,6 +58,7 @@ class _SocializeState extends State<Socialize> {
                       borderRadius: BorderRadius.circular(20.0),
                     )),
                 onPressed: () async {
+                  //TODO: CHANGE BACK
                   await Navigator.pushNamed(context, CreatePost.routeName);
                   setState(() {});
                 },
@@ -69,7 +71,7 @@ class _SocializeState extends State<Socialize> {
           ]),
           Expanded(
             child: FutureBuilder(
-              future: _db.getPosts(category: categoryFilter),
+              future: db.getPosts(category: categoryFilter),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {
@@ -82,6 +84,7 @@ class _SocializeState extends State<Socialize> {
                             DateTime formattedDate = DateTime.parse(
                                 postData.dateTime.toDate().toString());
                             return PostCard(
+                                postId: postData.postId,
                                 name: postData.name,
                                 course: postData.course,
                                 dateTime: formattedDate,

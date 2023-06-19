@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
       value: _auth.authStateChanges(),
       child: MaterialApp(
         home: Wrapper(),
-        // home: CreatePost(),
         theme: ThemeData(fontFamily: 'Frutiger'),
         routes: {
           '/socialize': (context) => NavigationController(selectedIndex: 1),

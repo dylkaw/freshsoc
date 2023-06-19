@@ -48,19 +48,32 @@ class DatabaseService {
     if (category == "All categories") {
       final snapshot =
           await postCollection.orderBy('dateTime', descending: true).get();
-      final postData = snapshot.docs
-          .map((e) => PostModel.fromSnapshot(e.data() as Map<String, dynamic>))
-          .toList();
+      final postData = snapshot.docs.map((e) {
+        String postId = e.reference.id;
+        return PostModel.fromSnapshot(e.data() as Map<String, dynamic>, postId);
+      }).toList();
       return postData;
     } else {
       final snapshot = await postCollection
           .where("category", isEqualTo: category)
           .orderBy('dateTime', descending: true)
           .get();
-      final postData = snapshot.docs
-          .map((e) => PostModel.fromSnapshot(e.data() as Map<String, dynamic>))
-          .toList();
+      final postData = snapshot.docs.map((e) {
+        String postId = e.reference.id;
+        return PostModel.fromSnapshot(e.data() as Map<String, dynamic>, postId);
+      }).toList();
       return postData;
     }
+  }
+
+  Future addReply(String postId, String reply) async {
+    final userData = await getUserDetails();
+    postCollection.doc(postId).collection("replies").doc().set({
+      'uid': user!.uid,
+      'name': userData.name,
+      'course': userData.course,
+      'dateTime': DateTime.now(),
+      'reply': reply,
+    });
   }
 }

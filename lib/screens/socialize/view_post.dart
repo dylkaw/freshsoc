@@ -14,13 +14,16 @@ class ViewPost extends StatefulWidget {
 }
 
 class _ViewPostState extends State<ViewPost> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
+  final replyText = TextEditingController();
 
   Map data = {};
   String reply = '';
 
   @override
   Widget build(BuildContext context) {
+    final db = DatabaseService(user: _auth.currentUser);
     data = data.isNotEmpty
         ? data
         : ModalRoute.of(context)?.settings.arguments as Map;
@@ -53,43 +56,55 @@ class _ViewPostState extends State<ViewPost> {
                 ),
                 // First child is enter comment text input
                 Expanded(
-                  child: TextFormField(
-                    autocorrect: false,
-                    minLines: 1,
-                    maxLines: 10,
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(15, 0, 5, 10),
-                      suffix: TextButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                                EdgeInsets.zero),
-                            minimumSize:
-                                MaterialStateProperty.all<Size>(Size.zero),
-                            overlayColor:
-                                MaterialStateProperty.all(Colors.transparent),
-                            splashFactory: NoSplash.splashFactory),
-                        child: const Text(
-                          "Done",
-                          style: TextStyle(height: 1.0),
+                  child: Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      autocorrect: false,
+                      validator: (value) =>
+                          reply.isEmpty ? "Reply cannot be empty!" : null,
+                      controller: replyText,
+                      minLines: 1,
+                      maxLines: 10,
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(15, 0, 5, 10),
+                        suffix: TextButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              db.addReply(data['postId'], reply);
+                              replyText.clear();
+                              setState(() => reply = '');
+                            }
+                          },
+                          style: ButtonStyle(
+                              padding: MaterialStateProperty.all<EdgeInsets>(
+                                  EdgeInsets.zero),
+                              minimumSize:
+                                  MaterialStateProperty.all<Size>(Size.zero),
+                              overlayColor:
+                                  MaterialStateProperty.all(Colors.transparent),
+                              splashFactory: NoSplash.splashFactory),
+                          child: const Text(
+                            "Done",
+                            style: TextStyle(height: 1.0),
+                          ),
+                        ),
+                        hintText: "Add a reply...",
+                        labelStyle: const TextStyle(
+                            fontSize: 20.0, color: Colors.white),
+                        fillColor: Colors.blue,
+                        isCollapsed: true,
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(24)),
+                          borderSide: BorderSide(
+                            width: 0.5,
+                          ),
                         ),
                       ),
-                      hintText: "Add a reply...",
-                      labelStyle:
-                          const TextStyle(fontSize: 20.0, color: Colors.white),
-                      fillColor: Colors.blue,
-                      isCollapsed: true,
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(24)),
-                        borderSide: BorderSide(
-                          width: 0.5,
-                        ),
-                      ),
+                      onChanged: (val) {
+                        setState(() => reply = val);
+                      },
                     ),
-                    onChanged: (val) {
-                      setState(() => reply = val);
-                    },
                   ),
                 ),
                 const SizedBox(
