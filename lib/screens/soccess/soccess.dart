@@ -15,24 +15,19 @@ class Soccess extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 234, 230, 229),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(75),
-        child: AppBar(
-          flexibleSpace: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'SoCcess',
-                  style: TextStyle(fontSize: 30, color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: nusOrange,
-          elevation: 0.0,
-        ),
+      appBar: AppBar(
+        title: const Text('SoCcess'),
+        backgroundColor: nusOrange,
+        elevation: 0.0,
+        actions: <Widget>[
+          TextButton.icon(
+            icon: const Icon(Icons.person),
+            label: const Text('logout'),
+            onPressed: () async {
+              await _auth.signOut();
+            },
+          )
+        ],
       ),
       body: ProfileCard(user: _auth.currentUser),
     );

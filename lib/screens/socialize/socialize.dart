@@ -25,24 +25,10 @@ class _SocializeState extends State<Socialize> {
     final _db = DatabaseService(user: _auth.currentUser);
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 234, 230, 229),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(75),
-        child: AppBar(
-          flexibleSpace: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'SoCialize',
-                  style: TextStyle(fontSize: 30, color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: nusOrange,
-          elevation: 0.0,
-        ),
+      appBar: AppBar(
+        title: const Text('SoCialize'),
+        backgroundColor: nusOrange,
+        elevation: 0.0,
       ),
       body: Column(
         children: [
