@@ -97,7 +97,8 @@ class DatabaseService {
         await postCollection.doc(postId).collection('replies').count().get();
     final numReplies = query.count;
     return numReplies;
-    
+  }
+
   Future<void> updateUserProfilePicture(
       String uid, String newProfilePicUrl) async {
     return userCollection
