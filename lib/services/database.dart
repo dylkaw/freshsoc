@@ -19,6 +19,8 @@ class DatabaseService {
       'name': name,
       'email': email,
       'course': course,
+      'profilePictureUrl':
+          'https://4.bp.blogspot.com/-pce7rOe1VpM/VfBa0G6H0EI/AAAAAAAABUM/ttEOVpQSQy8/s1600/1-welfare-bg.png',
     });
   }
 
@@ -62,5 +64,23 @@ class DatabaseService {
           .toList();
       return postData;
     }
+  }
+
+  Future<void> updateUserProfilePicture(
+      String uid, String newProfilePicUrl) async {
+    return userCollection
+        .doc(uid)
+        .update({'profilePictureUrl': newProfilePicUrl});
+  }
+
+  Future<void> updateUserNUSNETID(String uid, String nusnetId) async {
+    return userCollection.doc(uid).update({'nusnetId': nusnetId});
+  }
+
+  Future<void> updateUserMatriculationNumber(
+      String uid, String matriculationNumber) async {
+    return userCollection
+        .doc(uid)
+        .update({'matriculationNumber': matriculationNumber});
   }
 }
