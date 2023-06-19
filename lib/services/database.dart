@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freshsoc/models/post_model.dart';
+import 'package:freshsoc/models/reply_model.dart';
 import 'package:freshsoc/models/user_model.dart';
 
 class DatabaseService {
@@ -75,5 +76,14 @@ class DatabaseService {
       'dateTime': DateTime.now(),
       'reply': reply,
     });
+  }
+
+  Future<List<ReplyModel>> getReplies(String postId) async {
+    final snapshot =
+        await postCollection.doc(postId).collection("replies").get();
+    final replyData = snapshot.docs
+        .map((e) => ReplyModel.fromSnapshot(e.data() as Map<String, dynamic>))
+        .toList();
+    return replyData;
   }
 }
