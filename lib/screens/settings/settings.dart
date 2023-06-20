@@ -34,7 +34,14 @@ class Settings extends StatelessWidget {
           elevation: 0.0,
         ),
       ),
-      body: ProfileCard(user: _auth.currentUser),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            AuthService().signOut(); // Call your sign out method here
+          },
+          child: Text('Log Out'),
+        ),
+      ),
     );
   }
 }
