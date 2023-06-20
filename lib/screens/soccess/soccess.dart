@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:freshsoc/screens/home/components/identity_card.dart';
 import 'package:freshsoc/screens/soccess/components/acad_progress.dart';
+import 'package:freshsoc/screens/soccess/components/com_sci.dart';
 import 'package:freshsoc/services/database.dart';
 import 'package:freshsoc/shared/constants.dart';
 
@@ -41,16 +42,12 @@ class _SoccessState extends State<Soccess> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                    child: AcadProgress(user: _auth.currentUser),
-                  ),
-                ),
-              ],
+            Container(
+              width: double.infinity,
+              child: AcadProgress(user: _auth.currentUser),
             ),
+            SizedBox(height: 10),
+            ComputerScience(),
           ],
         ),
       ),
