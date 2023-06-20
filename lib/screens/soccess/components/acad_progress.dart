@@ -33,20 +33,49 @@ class _AcadProgressState extends State<AcadProgress> {
   Widget build(BuildContext context) {
     return _userModel == null
         ? Loading()
-        : Scaffold(
-            appBar: AppBar(
-              title: Text('Academic Progress - ${_userModel!.course}'),
-            ),
-            body: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      'Home Course: ${_userModel!.course}'), // Non-editable field
-                  SizedBox(height: 10),
-                  // Add other fields and widgets here
-                ],
+        : Padding(
+            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.black,
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Home Course: ${_userModel!.course}',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Secondary Major:',
+                      style: TextStyle(fontSize: 20, color: Colors.black),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Minor:',
+                      style: TextStyle(fontSize: 20, color: Colors.black),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Special Programs:',
+                      style: TextStyle(fontSize: 20, color: Colors.black),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'MCs Completed:',
+                      style: TextStyle(fontSize: 20, color: Colors.black),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
