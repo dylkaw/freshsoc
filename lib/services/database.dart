@@ -43,7 +43,7 @@ class DatabaseService {
       'title': title,
       'category': category,
       'bodyText': bodyText,
-      'likes': 0
+      'likes': [],
     });
   }
 
@@ -97,6 +97,11 @@ class DatabaseService {
         await postCollection.doc(postId).collection('replies').count().get();
     final numReplies = query.count;
     return numReplies;
+  }
+
+  Future<int> getNumLikes(String postId) async {
+    final snapshot = await postCollection.doc(postId).get();
+    return List<String>.from(snapshot["likes"] ?? []).length;
   }
 
   Future<void> updateUserProfilePicture(

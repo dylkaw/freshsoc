@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:freshsoc/screens/socialize/components/like_button.dart';
 import 'package:freshsoc/services/database.dart';
 import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
@@ -12,7 +13,7 @@ class FullPost extends StatefulWidget {
   final String title;
   final String category;
   String bodyText;
-  int likes;
+  final List<String> likes;
 
   FullPost(
       {super.key,
@@ -86,31 +87,7 @@ class _FullPostState extends State<FullPost> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                    height: 12.0,
-                    child: TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          minimumSize: Size.zero,
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              "${widget.likes} likes",
-                              style: const TextStyle(
-                                  fontSize: 12.0, color: Color(0xFF8A8A8A)),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            const Icon(
-                              Icons.favorite_outline,
-                              size: 12.0,
-                              color: Color(0xFF8A8A8A),
-                            )
-                          ],
-                        ))),
+                LikeButton(postId: widget.postId, likes: widget.likes),
                 SizedBox(
                     height: 12.0,
                     child: TextButton(
