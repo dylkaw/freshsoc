@@ -27,12 +27,12 @@ class _CreatePostState extends State<CreatePost> {
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 234, 230, 229),
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(75),
+          preferredSize: const Size.fromHeight(75),
           child: AppBar(
             flexibleSpace: SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Text(
                     'Create Post',
                     style: TextStyle(fontSize: 30, color: Colors.white),
@@ -132,7 +132,7 @@ class _CreatePostState extends State<CreatePost> {
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 12.0),
+                    const SizedBox(height: 12.0),
                   ]))),
         ));
   }

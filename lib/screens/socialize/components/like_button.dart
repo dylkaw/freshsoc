@@ -7,11 +7,7 @@ class LikeButton extends StatefulWidget {
   final String postId;
   final List<String> likes;
 
-  LikeButton({
-    super.key,
-    required this.postId,
-    required this.likes,
-  });
+  const LikeButton({super.key, required this.postId, required this.likes});
 
   @override
   State<LikeButton> createState() => _LikeButtonState();
