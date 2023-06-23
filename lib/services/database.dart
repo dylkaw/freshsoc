@@ -104,6 +104,16 @@ class DatabaseService {
     return List<String>.from(snapshot["likes"] ?? []).length;
   }
 
+  Future flagPost(String postId, String reason) async {
+    final userData = await getUserDetails();
+    postCollection.doc(postId).collection("flags").doc().set({
+      'uid': user!.uid,
+      'name': userData.name,
+      'course': userData.course,
+      'reason': reason,
+    });
+  }
+
   Future<void> updateUserProfilePicture(
       String uid, String newProfilePicUrl) async {
     return userCollection

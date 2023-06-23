@@ -65,7 +65,8 @@ class _FlagButtonState extends State<FlagButton> {
                       },
                       child: const Text("Cancel")),
                   TextButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        await db.flagPost(widget.postId, selectedOption);
                         Navigator.pop(context);
                       },
                       child: const Text("Ok")),
