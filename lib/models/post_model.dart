@@ -9,7 +9,7 @@ class PostModel {
   final String title;
   final String category;
   final String bodyText;
-  final int likes;
+  final List<String> likes;
 
   PostModel({
     required this.postId,
@@ -33,6 +33,6 @@ class PostModel {
         title: document["title"],
         category: document["category"],
         bodyText: document["bodyText"],
-        likes: document["likes"]);
+        likes: List<String>.from(document["likes"] ?? []));
   }
 }

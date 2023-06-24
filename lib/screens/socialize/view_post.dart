@@ -75,10 +75,10 @@ class _ViewPostState extends State<ViewPost> {
                   } else if (snapshot.hasError) {
                     return Text(snapshot.error.toString());
                   } else {
-                    return Text("Something went wrong");
+                    return const Text("Something went wrong");
                   }
                 } else {
-                  return Loading();
+                  return const Loading();
                 }
               },
             ),
@@ -101,7 +101,7 @@ class _ViewPostState extends State<ViewPost> {
                       maxLines: 8,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(15, 0, 5, 10),
+                        contentPadding: const EdgeInsets.fromLTRB(15, 0, 5, 10),
                         suffix: TextButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {

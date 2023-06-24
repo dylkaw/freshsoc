@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:freshsoc/screens/socialize/components/flag_button.dart';
+import 'package:freshsoc/screens/socialize/components/like_button.dart';
 import 'package:freshsoc/screens/socialize/view_post.dart';
 import 'package:freshsoc/services/database.dart';
-import 'package:freshsoc/shared/widgets/loading.dart';
 import 'package:intl/intl.dart';
 
 class PostCard extends StatefulWidget {
@@ -14,10 +13,10 @@ class PostCard extends StatefulWidget {
   final DateTime dateTime;
   final String title;
   final String category;
-  String bodyText;
-  int likes;
+  final String bodyText;
+  final List<String> likes;
 
-  PostCard(
+  const PostCard(
       {super.key,
       required this.postId,
       required this.name,
@@ -33,12 +32,12 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final db = DatabaseService(user: _auth.currentUser);
+    final db = DatabaseService(user: currentUser);
 
     return Container(
         padding: const EdgeInsets.all(8.0),
@@ -105,31 +104,10 @@ class _PostCardState extends State<PostCard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                      height: 13,
-                      child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.zero,
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                "${widget.likes} likes",
-                                style:
-                                    const TextStyle(color: Color(0xFF8A8A8A)),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              const Icon(
-                                Icons.favorite_outline,
-                                size: 12.0,
-                                color: Color(0xFF8A8A8A),
-                              )
-                            ],
-                          ))),
+                  LikeButton(
+                    postId: widget.postId,
+                    likes: widget.likes,
+                  ),
                   SizedBox(
                       height: 13,
                       child: TextButton(
@@ -171,30 +149,9 @@ class _PostCardState extends State<PostCard> {
                               )
                             ],
                           ))),
-                  SizedBox(
-                      height: 13,
-                      child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.zero,
-                          ),
-                          child: Row(
-                            children: const [
-                              Text(
-                                "Flag",
-                                style: TextStyle(color: Color(0xFF8A8A8A)),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Icon(
-                                Icons.flag_outlined,
-                                size: 12.0,
-                                color: Color(0xFF8A8A8A),
-                              )
-                            ],
-                          )))
+                  FlagButton(
+                    postId: widget.postId,
+                  ),
                 ],
               ),
             ],
