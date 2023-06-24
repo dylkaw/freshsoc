@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:freshsoc/screens/socialize/components/flag_button.dart';
 import 'package:freshsoc/screens/socialize/components/like_button.dart';
 import 'package:freshsoc/services/database.dart';
 import 'package:intl/intl.dart';
@@ -128,31 +129,7 @@ class _FullPostState extends State<FullPost> {
                             )
                           ],
                         ))),
-                SizedBox(
-                    height: 12.0,
-                    child: TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          minimumSize: Size.zero,
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: Row(
-                          children: const [
-                            Text(
-                              "Flag",
-                              style: TextStyle(
-                                  fontSize: 12.0, color: Color(0xFF8A8A8A)),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Icon(
-                              Icons.flag_outlined,
-                              size: 12.0,
-                              color: Color(0xFF8A8A8A),
-                            )
-                          ],
-                        )))
+                FlagButton(postId: widget.postId),
               ],
             ),
           ],
