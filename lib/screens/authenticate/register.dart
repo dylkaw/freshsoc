@@ -81,7 +81,7 @@ class _RegisterState extends State<Register> {
                                     child: Text("Information Systems")),
                               ],
                               onChanged: (val) {
-                                setState(() => name = val as String);
+                                setState(() => course = val as String);
                               }),
                           const SizedBox(height: 15.0),
                           TextFormField(
