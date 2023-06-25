@@ -7,7 +7,11 @@ class LikeButton extends StatefulWidget {
   final String postId;
   final List<String> likes;
 
-  const LikeButton({super.key, required this.postId, required this.likes});
+  const LikeButton({
+    super.key,
+    required this.postId,
+    required this.likes,
+  });
 
   @override
   State<LikeButton> createState() => _LikeButtonState();
@@ -15,13 +19,7 @@ class LikeButton extends StatefulWidget {
 
 class _LikeButtonState extends State<LikeButton> {
   final currentUser = FirebaseAuth.instance.currentUser;
-  bool isLiked = false;
-
-  @override
-  initState() {
-    super.initState();
-    isLiked = widget.likes.contains(currentUser!.uid);
-  }
+  bool? isLiked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +27,16 @@ class _LikeButtonState extends State<LikeButton> {
     return SizedBox(
         height: 13,
         child: TextButton(
-            onPressed: () {
+            onPressed: () async {
+              bool likeStatus = await db.getLikeStatus(widget.postId);
               setState(() {
-                isLiked = !isLiked;
+                isLiked = !likeStatus;
               });
-
               DocumentReference postRef = FirebaseFirestore.instance
                   .collection('posts')
                   .doc(widget.postId);
 
-              if (isLiked) {
+              if (isLiked!) {
                 postRef.update({
                   'likes': FieldValue.arrayUnion([currentUser!.uid])
                 });
@@ -78,11 +76,32 @@ class _LikeButtonState extends State<LikeButton> {
                 const SizedBox(
                   width: 5,
                 ),
-                Icon(
-                  isLiked ? Icons.favorite : Icons.favorite_outline,
-                  size: 12.0,
-                  color: isLiked ? Colors.red : Color(0xFF8A8A8A),
-                )
+                FutureBuilder(
+                    future: db.getLikeStatus(widget.postId),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
+                          return Icon(
+                            snapshot.data!
+                                ? Icons.favorite
+                                : Icons.favorite_outline,
+                            size: 12.0,
+                            color:
+                                snapshot.data! ? Colors.red : Color(0xFF8A8A8A),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text(snapshot.error.toString());
+                        } else {
+                          return const Text("Something went wrong");
+                        }
+                      } else {
+                        return Icon(
+                          Icons.favorite_outline,
+                          size: 12.0,
+                          color: Color(0xFF8A8A8A),
+                        );
+                      }
+                    }),
               ],
             )));
   }
