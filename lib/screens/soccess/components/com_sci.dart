@@ -26,10 +26,37 @@ class ComputerScience extends StatelessWidget {
             ['MA1521', 'Calculus for Computing', '4'],
             ['ES2660', 'Communication in the Information Age', '4'],
             ['GEA1000', 'Quantitative Reasoning with Data', '4'],
-            // Add more module rows
           ],
         ),
-        // Add more semester cards
+        Semester(
+          title: 'Year 2 Semester 1',
+          moduleData: [
+            [
+              'CP2106',
+              'Independent Software Development Project (Orbital)',
+              '4'
+            ],
+            ['CS2100', 'Computer Organisation', '4'],
+            ['ST2334', 'Probability and Statistics', '4'],
+            ['CS2103T', 'Software Engineering', '4'],
+            [
+              'CS2101',
+              'Effective Communication for Computing Professionals',
+              '4'
+            ],
+            ['GEC1000', 'Globalisation and New Media', '4'],
+          ],
+        ),
+        Semester(
+          title: 'Year 2 Semester 2',
+          moduleData: [
+            ['CS3230', 'Design and Analysis of Algorithms', '4'],
+            ['CS2106', 'Introduction to Computer Networks', '4'],
+            ['CS2105', 'Introduction to Operating Systems', '4'],
+            ['HSH1000', 'The Human Condition', '4'],
+            ['GEX1001', 'Representation and Media', '4'],
+          ],
+        ),
       ],
     );
   }
