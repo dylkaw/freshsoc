@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshsoc/screens/soccess/components/semester.dart';
 
-class ComputerScience extends StatelessWidget {
+class InformationSystems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -10,8 +10,8 @@ class ComputerScience extends StatelessWidget {
         Semester(
           title: 'Year 1 Semester 1',
           moduleData: [
-            ['CS1101S', 'Programming Methodology', '4'],
-            ['CS1231S', 'Discrete Structures', '4'],
+            ['CS1010J', 'Programming Methodology', '4'],
+            ['BT1101', 'Introduction to Business Analytics', '4'],
             ['IS1108', 'Digital Ethics and Data Privacy', '4'],
             ['MA1522', 'Linear Algebra for Computing', '4'],
             ['GES1028', 'Singapore Society', '4'],
@@ -21,29 +21,29 @@ class ComputerScience extends StatelessWidget {
         Semester(
           title: 'Year 1 Semester 2',
           moduleData: [
-            ['CS2040S', 'Data Structures and Algorithms', '4'],
-            ['CS2030S', 'Programming Methodology II', '4'],
+            ['CS2030', 'Programming Methodology II', '4'],
             ['MA1521', 'Calculus for Computing', '4'],
-            ['ES2660', 'Communication in the Information Age', '4'],
-            ['GEA1000', 'Quantitative Reasoning with Data', '4'],
+            ['IS2101', 'Business and Technical Communication', '4'],
+            ['BT2102', 'Data Management and Visualisation', '4'],
+            ['IS2102', 'Enterprise Systems Architecture and Design', '4'],
           ],
         ),
         Semester(
           title: 'Year 2 Semester 1',
           moduleData: [
+            ['CS2040', 'Data Structures and Algorithms', '4'],
             [
               'CP2106',
               'Independent Software Development Project (Orbital)',
               '4'
             ],
-            ['CS2100', 'Computer Organisation', '4'],
-            ['ST2334', 'Probability and Statistics', '4'],
-            ['CS2103T', 'Software Engineering', '4'],
+            ['GES1028', 'Singapore Society', '4'],
             [
-              'CS2101',
-              'Effective Communication for Computing Professionals',
+              'IS2103',
+              'Enterprise Systems Server-side Design and Development',
               '4'
             ],
+            ['ST2334', 'Probability and Statistics', '4'],
             ['GEC1000', 'Globalisation and New Media', '4'],
           ],
         ),

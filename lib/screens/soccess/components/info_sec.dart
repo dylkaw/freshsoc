@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshsoc/screens/soccess/components/semester.dart';
 
-class ComputerScience extends StatelessWidget {
+class InformationSecurity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,11 +21,19 @@ class ComputerScience extends StatelessWidget {
         Semester(
           title: 'Year 1 Semester 2',
           moduleData: [
-            ['CS2040S', 'Data Structures and Algorithms', '4'],
-            ['CS2030S', 'Programming Methodology II', '4'],
+            ['CS2040C', 'Data Structures and Algorithms', '4'],
             ['MA1521', 'Calculus for Computing', '4'],
-            ['ES2660', 'Communication in the Information Age', '4'],
             ['GEA1000', 'Quantitative Reasoning with Data', '4'],
+            [
+              'CS2101',
+              'Effective Communication for Computing Professionals',
+              '4'
+            ],
+            [
+              'CS2113T',
+              'Software Engineering & Object-oriented Programming',
+              '4'
+            ],
           ],
         ),
         Semester(
@@ -37,13 +45,9 @@ class ComputerScience extends StatelessWidget {
               '4'
             ],
             ['CS2100', 'Computer Organisation', '4'],
+            ['CS2105', 'Introduction to Computer Networks', '4'],
+            ['CS2106', 'Introduction to Operating Systems', '4'],
             ['ST2334', 'Probability and Statistics', '4'],
-            ['CS2103T', 'Software Engineering', '4'],
-            [
-              'CS2101',
-              'Effective Communication for Computing Professionals',
-              '4'
-            ],
             ['GEC1000', 'Globalisation and New Media', '4'],
           ],
         ),
