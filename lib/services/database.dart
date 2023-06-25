@@ -104,6 +104,12 @@ class DatabaseService {
     return List<String>.from(snapshot["likes"] ?? []).length;
   }
 
+  Future<bool> getLikeStatus(String postId) async {
+    final snapshot = await postCollection.doc(postId).get();
+    final likeList = List<String>.from(snapshot["likes"] ?? []);
+    return likeList.contains(user!.uid);
+  }
+
   Future flagPost(String postId, String reason) async {
     final userData = await getUserDetails();
     postCollection.doc(postId).collection("flags").doc().set({
