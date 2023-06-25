@@ -110,49 +110,41 @@ class _PostCardState extends State<PostCard> {
                   ),
                   SizedBox(
                       height: 13,
-                      child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.zero,
+                      child: Row(
+                        children: [
+                          FutureBuilder(
+                              future: db.getNumReplies(widget.postId),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                      "${snapshot.data} Replies",
+                                      style: const TextStyle(
+                                          color: Color(0xFF8A8A8A)),
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return Text(snapshot.error.toString());
+                                  } else {
+                                    return const Text("Something went wrong");
+                                  }
+                                } else {
+                                  return const Text(
+                                    "0 Replies",
+                                    style: TextStyle(color: Color(0xFF8A8A8A)),
+                                  );
+                                }
+                              }),
+                          const SizedBox(
+                            width: 5,
                           ),
-                          child: Row(
-                            children: [
-                              FutureBuilder(
-                                  future: db.getNumReplies(widget.postId),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.done) {
-                                      if (snapshot.hasData) {
-                                        return Text(
-                                          "${snapshot.data} Replies",
-                                          style: const TextStyle(
-                                              color: Color(0xFF8A8A8A)),
-                                        );
-                                      } else if (snapshot.hasError) {
-                                        return Text(snapshot.error.toString());
-                                      } else {
-                                        return const Text(
-                                            "Something went wrong");
-                                      }
-                                    } else {
-                                      return const Text(
-                                        "0 Replies",
-                                        style:
-                                            TextStyle(color: Color(0xFF8A8A8A)),
-                                      );
-                                    }
-                                  }),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              const Icon(
-                                Icons.comment_outlined,
-                                size: 12.0,
-                                color: Color(0xFF8A8A8A),
-                              )
-                            ],
-                          ))),
+                          const Icon(
+                            Icons.comment_outlined,
+                            size: 12.0,
+                            color: Color(0xFF8A8A8A),
+                          )
+                        ],
+                      )),
                   FlagButton(
                     postId: widget.postId,
                   ),
