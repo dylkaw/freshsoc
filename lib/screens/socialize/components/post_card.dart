@@ -136,7 +136,11 @@ class _PostCardState extends State<PostCard> {
                                             "Something went wrong");
                                       }
                                     } else {
-                                      return SizedBox(height: 13);
+                                      return const Text(
+                                        "0 Replies",
+                                        style:
+                                            TextStyle(color: Color(0xFF8A8A8A)),
+                                      );
                                     }
                                   }),
                               const SizedBox(
