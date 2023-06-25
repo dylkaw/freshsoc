@@ -18,3 +18,10 @@ const categoryFilters = [
   "Hackathon",
   "Hobbies"
 ];
+
+const flagOptions = [
+  "Bullying or Harrassment",
+  "Inappropriate Content",
+  "False Information",
+  "Spam"
+];

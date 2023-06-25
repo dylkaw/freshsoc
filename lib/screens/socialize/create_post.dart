@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:freshsoc/models/user_model.dart';
 import 'package:freshsoc/services/auth.dart';
 import 'package:freshsoc/services/database.dart';
 import 'package:freshsoc/shared/constants.dart';
-import 'package:freshsoc/shared/widgets/loading.dart';
 
 class CreatePost extends StatefulWidget {
   const CreatePost({super.key});
@@ -29,12 +27,12 @@ class _CreatePostState extends State<CreatePost> {
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 234, 230, 229),
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(75),
+          preferredSize: const Size.fromHeight(75),
           child: AppBar(
             flexibleSpace: SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Text(
                     'Create Post',
                     style: TextStyle(fontSize: 30, color: Colors.white),
@@ -134,7 +132,7 @@ class _CreatePostState extends State<CreatePost> {
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 12.0),
+                    const SizedBox(height: 12.0),
                   ]))),
         ));
   }
