@@ -1,15 +1,16 @@
+import "dart:convert";
+import "dart:io";
+
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:freshsoc/models/user_model.dart";
-import "package:freshsoc/screens/home/components/profile_card.dart";
 import "package:freshsoc/screens/socchat/components/chat_message.dart";
-import "package:freshsoc/services/auth.dart";
 import "package:freshsoc/services/database.dart";
 import "package:freshsoc/shared/constants.dart";
-import 'package:provider/provider.dart';
+import "package:http/http.dart";
 
 class Socchat extends StatefulWidget {
-  Socchat({super.key});
+  const Socchat({super.key});
 
   @override
   State<Socchat> createState() => _SocchatState();
@@ -26,6 +27,8 @@ class _SocchatState extends State<Socchat> {
   DatabaseService? db;
   UserModel? _userModel;
 
+  bool isTyping = false;
+
   @override
   void initState() {
     super.initState();
@@ -36,7 +39,6 @@ class _SocchatState extends State<Socchat> {
   Future<void> _loadUserData() async {
     _userModel = await db!.getUserDetails();
     setState(() {});
-    print(_userModel);
   }
 
   @override
@@ -107,8 +109,35 @@ class _SocchatState extends State<Socchat> {
                                 questionText.clear();
                                 setState(() {
                                   messages.insert(0, message);
-                                  question = '';
                                 });
+                                final response = await post(
+                                    Uri.parse(
+                                        "https://api.openai.com/v1/chat/completions"),
+                                    headers: {
+                                      'Authorization': 'Bearer $API_KEY',
+                                      "Content-Type": "application/json"
+                                    },
+                                    body: jsonEncode({
+                                      "model": "gpt-3.5-turbo",
+                                      "messages": [
+                                        {"role": "user", "content": question}
+                                      ]
+                                    }));
+                                final jsonResponse = jsonDecode(response.body);
+                                if (jsonResponse['error'] != null) {
+                                  throw HttpException(
+                                      jsonResponse['error']['message']);
+                                }
+
+                                if (jsonResponse["choices"].length > 0) {
+                                  setState(() {
+                                    messages.insert(
+                                        0,
+                                        jsonResponse["choices"][0]["message"]
+                                            ["content"]);
+                                    question = '';
+                                  });
+                                }
                               }
                             },
                             style: ButtonStyle(
