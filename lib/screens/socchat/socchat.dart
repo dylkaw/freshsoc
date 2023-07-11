@@ -18,6 +18,7 @@ class Socchat extends StatefulWidget {
 class _SocchatState extends State<Socchat> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
+  final messages = [];
   final questionText = TextEditingController();
 
   String question = '';
@@ -63,17 +64,15 @@ class _SocchatState extends State<Socchat> {
         ),
         body: Column(
           children: [
-            Expanded(child: Container()),
-            ChatMessage(
-                message:
-                    'message message message messagemessage message message message message message message message message message message message message message message message message message message message message message message message message message message message message message message message',
-                sender: 'Soccat',
-                userModel: _userModel),
-            ChatMessage(
-                message:
-                    'message message message messagemessage message message message message message message message message message message message message message message message message message message message message message message message message message message message message message message message',
-                sender: 'user',
-                userModel: _userModel),
+            Expanded(
+              child: ListView.builder(
+                reverse: true,
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  return messages[index];
+                },
+              ),
+            ),
             SizedBox(
               height: 5,
             ),
@@ -101,8 +100,15 @@ class _SocchatState extends State<Socchat> {
                           suffix: TextButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
+                                ChatMessage message = ChatMessage(
+                                    message: question,
+                                    sender: 'user',
+                                    userModel: _userModel);
                                 questionText.clear();
-                                setState(() => question = '');
+                                setState(() {
+                                  messages.insert(0, message);
+                                  question = '';
+                                });
                               }
                             },
                             style: ButtonStyle(
