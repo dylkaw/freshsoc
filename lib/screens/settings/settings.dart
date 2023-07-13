@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:freshsoc/services/auth.dart';
 import 'package:freshsoc/screens/settings/change_password.dart';
+import 'package:freshsoc/screens/settings/confirm_logout.dart';
 import 'package:freshsoc/screens/settings/update_profile.dart';
+import 'package:freshsoc/screens/settings/confirm_logout.dart';
 import 'package:freshsoc/shared/constants.dart';
 
 class Settings extends StatefulWidget {
@@ -28,6 +29,16 @@ class _SettingsState extends State<Settings> {
   void changePassword(BuildContext context) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => ChangePassword()));
+  }
+
+  Future<void> _logOut(BuildContext context) async {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return ConfirmLogout();
+      },
+    );
   }
 
   @override
@@ -107,7 +118,7 @@ class _SettingsState extends State<Settings> {
               style: TextStyle(fontSize: 24),
             ),
             onTap: () {
-              AuthService().signOut();
+              _logOut(context);
             },
           ),
         ],
