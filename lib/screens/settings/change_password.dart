@@ -16,6 +16,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   String _oldPassword = '';
   String _newPassword = '';
   String _confirmPassword = '';
+  String _errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
@@ -40,96 +41,111 @@ class _ChangePasswordState extends State<ChangePassword> {
           elevation: 0.0,
         ),
       ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextFormField(
-                decoration: InputDecoration(hintText: 'Enter current password'),
-                style: TextStyle(fontSize: 18), // Increase font size here
-                validator: (value) =>
-                    value!.isEmpty ? 'Password can\'t be empty' : null,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Current Password',
+                  labelStyle: TextStyle(fontSize: 20),
+                  hintText: 'Enter current password',
+                ),
+                style: TextStyle(fontSize: 18),
                 obscureText: true,
                 onChanged: (value) {
                   setState(() => _oldPassword = value.trim());
                 },
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextFormField(
-                decoration: InputDecoration(hintText: 'Enter new password'),
-                style: TextStyle(fontSize: 18), // Increase font size here
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Password can\'t be empty';
-                  } else if (value.length < 6) {
-                    return 'Password must be at least 6 characters long';
-                  } //ensures that new password is also at least 6 characters
-                  return null;
-                },
+              SizedBox(height: 20.0),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'New Password',
+                  labelStyle: TextStyle(fontSize: 20),
+                  hintText: 'Enter new password',
+                ),
+                style: TextStyle(fontSize: 18),
                 obscureText: true,
                 onChanged: (value) {
                   setState(() => _newPassword = value.trim());
                 },
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextFormField(
-                decoration: InputDecoration(hintText: 'Confirm new password'),
-                style: TextStyle(fontSize: 18), // Increase font size here
-                validator: (value) =>
-                    value != _newPassword ? 'Passwords do not match' : null,
+              SizedBox(height: 20.0),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Confirm New Password',
+                  labelStyle: TextStyle(fontSize: 20),
+                  hintText: 'Re-enter new password',
+                ),
+                style: TextStyle(fontSize: 18),
                 obscureText: true,
                 onChanged: (value) {
                   setState(() => _confirmPassword = value.trim());
                 },
               ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: nusBlue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
+              SizedBox(height: 20.0),
+              Text(
+                _errorMessage,
+                style: TextStyle(color: Colors.red, fontSize: 16),
+              ),
+              SizedBox(height: 20.0),
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: nusBlue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                  onPressed: () async {
+                    setState(() {
+                      _errorMessage = '';
+                      if (_oldPassword.isEmpty ||
+                          _newPassword.isEmpty ||
+                          _confirmPassword.isEmpty) {
+                        _errorMessage = 'All fields must be filled.';
+                      } else if (_newPassword.length < 6) {
+                        _errorMessage =
+                            'Password must be at least 6 characters long';
+                      } else if (_newPassword != _confirmPassword) {
+                        _errorMessage = 'Passwords do not match';
+                      } else {
+                        _changePassword();
+                      }
+                    });
+                  },
+                  child: Text(
+                    'Change Password',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  User? user = FirebaseAuth.instance.currentUser;
-                  AuthCredential credential = EmailAuthProvider.credential(
-                      email: user!.email!, password: _oldPassword);
-                  user.reauthenticateWithCredential(credential).then((_) {
-                    user.updatePassword(_newPassword).then((_) async {
-                      print("Successfully changed password");
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Password changed successfully'),
-                      ));
-                      await AuthService().signOut();
-                    }).catchError((error) {
-                      print("Password can't be changed" + error.toString());
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Error changing password'),
-                      ));
-                    });
-                  }).catchError((error) {
-                    print("Old password is not correct" + error.toString());
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('Old password is not correct'),
-                    ));
-                  });
-                }
-              },
-              child: Text(
-                'Change Password',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  Future<void> _changePassword() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    AuthCredential credential = EmailAuthProvider.credential(
+        email: user!.email!, password: _oldPassword);
+
+    try {
+      await user.reauthenticateWithCredential(credential);
+      await user.updatePassword(_newPassword);
+      setState(() {
+        _errorMessage = 'Password successfully changed. Please login again.';
+      });
+      await AuthService().signOut();
+    } catch (error) {
+      print("Error changing password: " + error.toString());
+      setState(() {
+        _errorMessage = 'Error changing password';
+      });
+    }
   }
 }
