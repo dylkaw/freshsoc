@@ -105,10 +105,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                       if (_oldPassword.isEmpty ||
                           _newPassword.isEmpty ||
                           _confirmPassword.isEmpty) {
-                        _errorMessage = 'All fields must be filled.';
+                        _errorMessage = 'All fields must be filled';
                       } else if (_newPassword.length < 6) {
                         _errorMessage =
                             'Password must be at least 6 characters long';
+                      } else if (_newPassword == _oldPassword) {
+                        _errorMessage =
+                            'New password should be different from the current password';
                       } else if (_newPassword != _confirmPassword) {
                         _errorMessage = 'Passwords do not match';
                       } else {
