@@ -8,6 +8,7 @@ import "package:freshsoc/screens/socchat/components/chat_message.dart";
 import "package:freshsoc/services/database.dart";
 import "package:freshsoc/shared/constants.dart";
 import "package:http/http.dart";
+import "package:freshsoc/secrets.dart";
 
 class Socchat extends StatefulWidget {
   const Socchat({super.key});
@@ -34,6 +35,14 @@ class _SocchatState extends State<Socchat> {
     super.initState();
     db = DatabaseService(user: _auth.currentUser);
     _loadUserData();
+    setState(() {
+      messages.insert(
+          0,
+          ChatMessage(
+              message: "Hello, how I can I help you?",
+              sender: 'Soccat',
+              userModel: _userModel));
+    });
   }
 
   Future<void> _loadUserData() async {
@@ -133,8 +142,11 @@ class _SocchatState extends State<Socchat> {
                                   setState(() {
                                     messages.insert(
                                         0,
-                                        jsonResponse["choices"][0]["message"]
-                                            ["content"]);
+                                        ChatMessage(
+                                            message: jsonResponse["choices"][0]
+                                                ["message"]["content"],
+                                            sender: 'Soccat',
+                                            userModel: _userModel));
                                     question = '';
                                   });
                                 }
