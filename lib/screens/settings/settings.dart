@@ -51,11 +51,17 @@ class _SettingsState extends State<Settings> {
       body: ListView(
         children: <Widget>[
           ListTile(
-            title: Text('Notifications',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            title: Text(
+              'Notifications',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
           ),
           SwitchListTile(
-            title: Text('Toggle Notifications'),
+            secondary: Icon(Icons.notifications),
+            title: Text(
+              'Toggle Notifications',
+              style: TextStyle(fontSize: 18),
+            ),
             value: _notificationsEnabled,
             onChanged: (bool value) {
               setState(() {
@@ -65,26 +71,37 @@ class _SettingsState extends State<Settings> {
             },
           ),
           ListTile(
-            title: Text('Account',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            title: Text(
+              'Account',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.person),
-            title: Text('Update Profile'),
+            title: Text(
+              'Update Profile',
+              style: TextStyle(fontSize: 18),
+            ),
             onTap: () {
               updateProfile(context);
             },
           ),
           ListTile(
             leading: Icon(Icons.lock),
-            title: Text('Change Password'),
+            title: Text(
+              'Change Password',
+              style: TextStyle(fontSize: 18),
+            ),
             onTap: () {
               changePassword(context);
             },
           ),
           ListTile(
             leading: Icon(Icons.logout),
-            title: Text('Log Out'),
+            title: Text(
+              'Log Out',
+              style: TextStyle(fontSize: 18),
+            ),
             onTap: () {
               AuthService().signOut();
             },
