@@ -129,6 +129,11 @@ class _SocchatState extends State<Socchat> {
                                     body: jsonEncode({
                                       "model": "gpt-3.5-turbo",
                                       "messages": [
+                                        {
+                                          "role": "system",
+                                          "content":
+                                              "Your answer should be related to National University Singapore School of Computing"
+                                        },
                                         {"role": "user", "content": question}
                                       ]
                                     }));
