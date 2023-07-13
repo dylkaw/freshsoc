@@ -77,6 +77,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
         _matriculationNumberController.text,
       );
     }
+    Navigator.of(context).pop();
   }
 
   Future<void> updateProfilePicture() async {
@@ -195,6 +196,12 @@ class _UpdateProfileState extends State<UpdateProfile> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _saveChanges,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: nusBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                ),
                 child: Text('Save Changes'),
               ),
             ],

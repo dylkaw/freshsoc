@@ -139,6 +139,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       await user.updatePassword(_newPassword);
       setState(() {
         _errorMessage = 'Password successfully changed. Please login again.';
+        Navigator.of(context).pop();
       });
       await AuthService().signOut();
     } catch (error) {
