@@ -34,11 +34,11 @@ class _ProfileCardState extends State<ProfileCard> {
   @override
   Widget build(BuildContext context) {
     return _userModel == null
-        ? Loading()
+        ? const Loading()
         : Padding(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
             child: Container(
-              color: Color.fromRGBO(0, 61, 124, 0.66),
+              color: const Color.fromRGBO(0, 61, 124, 0.66),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -47,28 +47,28 @@ class _ProfileCardState extends State<ProfileCard> {
                       onTap: updateProfilePicture,
                       child: CircleAvatar(
                         backgroundImage: _userModel!.profilePictureUrl == null
-                            ? AssetImage('assets/images/soccat.png')
+                            ? const AssetImage('assets/images/soccat.png')
                                 as ImageProvider<Object>
-                            : NetworkImage(_userModel!.profilePictureUrl!)
+                            : NetworkImage(_userModel!.profilePictureUrl)
                                 as ImageProvider<Object>,
                         radius: 70,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       _userModel!.name,
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       _userModel!.course,
-                      style: TextStyle(fontSize: 20, color: Colors.black),
+                      style: const TextStyle(fontSize: 20, color: Colors.black),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       _userModel!.email,
-                      style: TextStyle(fontSize: 20, color: Colors.black),
+                      style: const TextStyle(fontSize: 20, color: Colors.black),
                     ),
                   ],
                 ),
