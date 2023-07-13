@@ -18,124 +18,65 @@ class UpdateProfile extends StatefulWidget {
 
 class _UpdateProfileState extends State<UpdateProfile> {
   DatabaseService? db;
-  String? _profilePictureUrl;
-  String? _name;
-  bool _isEditingName = false;
+  UserModel? _userModel;
+
   late TextEditingController _nameController;
+  late TextEditingController _courseController;
+  late TextEditingController _nusnetIdController;
+  late TextEditingController _matriculationNumberController;
 
   @override
   void initState() {
     super.initState();
     db = DatabaseService(user: widget.user);
-    _nameController = TextEditingController();
     _loadUserData();
   }
 
   Future<void> _loadUserData() async {
-    final userData = await db!.getUserDetails();
-    _profilePictureUrl = userData.profilePictureUrl;
-    _nameController.text = userData.name;
+    _userModel = await db!.getUserDetails();
+    _nameController = TextEditingController(text: _userModel!.name);
+    _courseController = TextEditingController(text: _userModel!.course);
+    _nusnetIdController =
+        TextEditingController(text: _userModel!.nusnetId ?? '');
+    _matriculationNumberController =
+        TextEditingController(text: _userModel!.matriculationNumber ?? '');
     setState(() {});
   }
 
-  void _toggleEditingName() {
-    setState(() {
-      _isEditingName = !_isEditingName;
-      if (!_isEditingName) {
-        _saveName();
-      }
-    });
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _courseController.dispose();
+    _nusnetIdController.dispose();
+    _matriculationNumberController.dispose();
+    super.dispose();
   }
 
-  Future<void> _saveName() async {
+  Future<void> _saveChanges() async {
     if (_nameController.text.isNotEmpty) {
-      final db = DatabaseService(user: widget.user);
-      await db.updateName(
+      await db!.updateName(
         widget.user!.uid,
         _nameController.text,
       );
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(75),
-        child: AppBar(
-          flexibleSpace: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Update Profile',
-                  style: TextStyle(fontSize: 30, color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: nusOrange,
-          elevation: 0.0,
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: updateProfilePicture,
-              child: Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  CircleAvatar(
-                    backgroundImage: _profilePictureUrl == null
-                        ? AssetImage('assets/images/soccat.png')
-                            as ImageProvider<Object>
-                        : NetworkImage(_profilePictureUrl!)
-                            as ImageProvider<Object>,
-                    radius: 70,
-                  ),
-                  Icon(
-                    Icons.edit,
-                    color: Colors.white.withOpacity(0.8),
-                    size: 100.0,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: FocusScope(
-                    node: FocusScopeNode(canRequestFocus: _isEditingName),
-                    child: TextFormField(
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                        labelText: 'Full Name',
-                        labelStyle: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                      enabled: true, // Always enable the field
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: _toggleEditingName,
-                  child: Text(_isEditingName ? 'Save' : 'Edit'),
-                ),
-              ],
-            ),
-            // Add other fields here
-          ],
-        ),
-      ),
-    );
+    if (_courseController.text.isNotEmpty) {
+      await db!.updateUserCourse(
+        widget.user!.uid,
+        _courseController.text,
+      );
+    }
+    if (_nusnetIdController.text.isNotEmpty) {
+      await db!.updateUserNUSNETID(
+        widget.user!.uid,
+        _nusnetIdController.text,
+      );
+    }
+    if (_matriculationNumberController.text.isNotEmpty) {
+      await db!.updateUserMatriculationNumber(
+        widget.user!.uid,
+        _matriculationNumberController.text,
+      );
+    }
   }
 
   Future<void> updateProfilePicture() async {
@@ -161,7 +102,105 @@ class _UpdateProfileState extends State<UpdateProfile> {
     await db!.updateUserProfilePicture(widget.user!.uid, imageUrl);
 
     // Update the state to reflect the new profile picture
-    _profilePictureUrl = imageUrl;
-    setState(() {});
+    _loadUserData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_userModel == null) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(), // Loading indicator
+        ),
+      );
+    }
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(75),
+        child: AppBar(
+          flexibleSpace: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Update Profile',
+                  style: TextStyle(fontSize: 30, color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: nusOrange,
+          elevation: 0.0,
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(20.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: GestureDetector(
+                  onTap: updateProfilePicture,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      CircleAvatar(
+                        backgroundImage: _userModel!.profilePictureUrl == null
+                            ? AssetImage('assets/images/soccat.png')
+                                as ImageProvider<Object>
+                            : NetworkImage(_userModel!.profilePictureUrl!)
+                                as ImageProvider<Object>,
+                        radius: 70,
+                      ),
+                      Icon(
+                        Icons.edit,
+                        color: Colors.white.withOpacity(0.8),
+                        size: 100.0,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              TextField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                ),
+              ),
+              SizedBox(height: 20),
+              TextField(
+                controller: _courseController,
+                decoration: InputDecoration(
+                  labelText: 'Course',
+                ),
+              ),
+              SizedBox(height: 20),
+              TextField(
+                controller: _nusnetIdController,
+                decoration: InputDecoration(
+                  labelText: 'NUSNET ID',
+                ),
+              ),
+              SizedBox(height: 20),
+              TextField(
+                controller: _matriculationNumberController,
+                decoration: InputDecoration(
+                  labelText: 'Matriculation Number',
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _saveChanges,
+                child: Text('Save Changes'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
