@@ -10,9 +10,25 @@ class UpdateProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Change Password'),
-        backgroundColor: nusOrange,
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(75),
+        child: AppBar(
+          flexibleSpace: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Update Profile',
+                  style: TextStyle(fontSize: 30, color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: nusOrange,
+          elevation: 0.0,
+        ),
       ),
       body: Center(
         child: Text(
