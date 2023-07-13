@@ -1,9 +1,9 @@
-import "package:firebase_auth/firebase_auth.dart";
-import "package:flutter/material.dart";
-import "package:freshsoc/screens/home/components/profile_card.dart";
-import "package:freshsoc/services/auth.dart";
-import "package:freshsoc/services/database.dart";
-import "package:freshsoc/shared/constants.dart";
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:freshsoc/screens/home/components/profile_card.dart';
+import 'package:freshsoc/services/auth.dart';
+import 'package:freshsoc/services/database.dart';
+import 'package:freshsoc/shared/constants.dart';
 import 'package:provider/provider.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -48,6 +48,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               padding: const EdgeInsets.all(16.0),
               child: TextFormField(
                 decoration: InputDecoration(hintText: 'Enter current password'),
+                style: TextStyle(fontSize: 18), // Increase font size here
                 validator: (value) =>
                     value!.isEmpty ? 'Password can\'t be empty' : null,
                 obscureText: true,
@@ -60,6 +61,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               padding: const EdgeInsets.all(16.0),
               child: TextFormField(
                 decoration: InputDecoration(hintText: 'Enter new password'),
+                style: TextStyle(fontSize: 18), // Increase font size here
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Password can\'t be empty';
@@ -78,6 +80,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               padding: const EdgeInsets.all(16.0),
               child: TextFormField(
                 decoration: InputDecoration(hintText: 'Confirm new password'),
+                style: TextStyle(fontSize: 18), // Increase font size here
                 validator: (value) =>
                     value != _newPassword ? 'Passwords do not match' : null,
                 obscureText: true,
@@ -87,6 +90,12 @@ class _ChangePasswordState extends State<ChangePassword> {
               ),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: nusBlue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+              ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   User? user = FirebaseAuth.instance.currentUser;
@@ -113,7 +122,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                   });
                 }
               },
-              child: Text('Change Password'),
+              child: Text(
+                'Change Password',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),

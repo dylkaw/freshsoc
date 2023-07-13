@@ -7,6 +7,10 @@ import "package:freshsoc/shared/constants.dart";
 import 'package:provider/provider.dart';
 
 class UpdateProfile extends StatelessWidget {
+  final User? user;
+
+  UpdateProfile({Key? key, this.user}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +36,7 @@ class UpdateProfile extends StatelessWidget {
       ),
       body: Center(
         child: Text(
-          'Update Profile',
+          'Update Profile for ${user?.email }',
           style: TextStyle(fontSize: 30, color: Colors.black),
         ),
       ),

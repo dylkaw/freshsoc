@@ -13,11 +13,16 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   bool _notificationsEnabled = false;
 
   void updateProfile(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => UpdateProfile()));
+      context,
+      MaterialPageRoute(
+        builder: (context) => UpdateProfile(user: _auth.currentUser),
+      ),
+    );
   }
 
   void changePassword(BuildContext context) {
@@ -53,34 +58,33 @@ class _SettingsState extends State<Settings> {
           ListTile(
             title: Text(
               'Notifications',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
           ),
           SwitchListTile(
-            secondary: Icon(Icons.notifications),
             title: Text(
               'Toggle Notifications',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 24),
             ),
             value: _notificationsEnabled,
             onChanged: (bool value) {
               setState(() {
                 _notificationsEnabled = value;
-                // Add your logic here to handle notifications
               });
             },
+            secondary: Icon(Icons.notifications),
           ),
           ListTile(
             title: Text(
               'Account',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
           ),
           ListTile(
             leading: Icon(Icons.person),
             title: Text(
               'Update Profile',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 24),
             ),
             onTap: () {
               updateProfile(context);
@@ -90,7 +94,7 @@ class _SettingsState extends State<Settings> {
             leading: Icon(Icons.lock),
             title: Text(
               'Change Password',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 24),
             ),
             onTap: () {
               changePassword(context);
@@ -100,7 +104,7 @@ class _SettingsState extends State<Settings> {
             leading: Icon(Icons.logout),
             title: Text(
               'Log Out',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 24),
             ),
             onTap: () {
               AuthService().signOut();
