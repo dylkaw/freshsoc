@@ -137,4 +137,8 @@ class DatabaseService {
         .doc(uid)
         .update({'matriculationNumber': matriculationNumber});
   }
+
+  Future<void> updateName(String uid, String newName) async {
+    return userCollection.doc(uid).update({'name': newName});
+  }
 }
