@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class UserModel {
   final String name;
   final String course;
@@ -8,6 +6,7 @@ class UserModel {
   final String profilePictureUrl;
   final String? nusnetId;
   final String? matriculationNumber;
+  final List? storedMessages;
 
   UserModel({
     required this.name,
@@ -17,6 +16,7 @@ class UserModel {
     required this.profilePictureUrl,
     this.nusnetId,
     this.matriculationNumber,
+    this.storedMessages,
   });
 
   factory UserModel.fromSnapshot(
@@ -30,6 +30,7 @@ class UserModel {
           "https://4.bp.blogspot.com/-pce7rOe1VpM/VfBa0G6H0EI/AAAAAAAABUM/ttEOVpQSQy8/s1600/1-welfare-bg.png",
       nusnetId: document["nusnetId"],
       matriculationNumber: document["matriculationNumber"],
+      storedMessages: document["storedMessages"],
     );
   }
 }
