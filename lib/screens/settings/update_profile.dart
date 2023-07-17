@@ -19,9 +19,9 @@ class UpdateProfile extends StatefulWidget {
 class _UpdateProfileState extends State<UpdateProfile> {
   DatabaseService? db;
   UserModel? _userModel;
+  String? _course;
 
   late TextEditingController _nameController;
-  late TextEditingController _courseController;
   late TextEditingController _nusnetIdController;
   late TextEditingController _matriculationNumberController;
 
@@ -35,7 +35,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
   Future<void> _loadUserData() async {
     _userModel = await db!.getUserDetails();
     _nameController = TextEditingController(text: _userModel!.name);
-    _courseController = TextEditingController(text: _userModel!.course);
+    _course = _userModel!.course;
     _nusnetIdController =
         TextEditingController(text: _userModel!.nusnetId ?? '');
     _matriculationNumberController =
@@ -46,7 +46,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
   @override
   void dispose() {
     _nameController.dispose();
-    _courseController.dispose();
     _nusnetIdController.dispose();
     _matriculationNumberController.dispose();
     super.dispose();
@@ -59,10 +58,10 @@ class _UpdateProfileState extends State<UpdateProfile> {
         _nameController.text,
       );
     }
-    if (_courseController.text.isNotEmpty) {
+    if (_course != null && _course!.isNotEmpty) {
       await db!.updateUserCourse(
         widget.user!.uid,
-        _courseController.text,
+        _course!,
       );
     }
     if (_nusnetIdController.text.isNotEmpty) {
@@ -173,12 +172,31 @@ class _UpdateProfileState extends State<UpdateProfile> {
                 ),
               ),
               SizedBox(height: 20),
-              TextField(
-                controller: _courseController,
-                decoration: InputDecoration(
-                  labelText: 'Course',
-                ),
-              ),
+              DropdownButtonFormField(
+                  value: _course,
+                  decoration: InputDecoration(
+                    labelText: "Course of Study",
+                  ),
+                  items: const [
+                    DropdownMenuItem(
+                        value: "Business Analytics",
+                        child: Text("Business Analytics")),
+                    DropdownMenuItem(
+                        value: "Computer Engineering",
+                        child: Text("Computer Engineering")),
+                    DropdownMenuItem(
+                        value: "Computer Science",
+                        child: Text("Computer Science")),
+                    DropdownMenuItem(
+                        value: "Information Security",
+                        child: Text("Information Security")),
+                    DropdownMenuItem(
+                        value: "Information Systems",
+                        child: Text("Information Systems")),
+                  ],
+                  onChanged: (val) {
+                    setState(() => _course = val as String);
+                  }),
               SizedBox(height: 20),
               TextField(
                 controller: _nusnetIdController,
