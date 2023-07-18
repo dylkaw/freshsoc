@@ -28,10 +28,24 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: nusBlue,
-          elevation: 0.0,
-          title: const Text('Register FreshSoC Account'),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(75),
+          child: AppBar(
+            flexibleSpace: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Register freshSoC Account',
+                    style: TextStyle(fontSize: 25, color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+            centerTitle: true,
+            backgroundColor: nusBlue,
+            elevation: 0.0,
+          ),
         ),
         body: loading
             ? const Loading()
