@@ -39,7 +39,8 @@ class _SocchatState extends State<Socchat> {
       messages.insert(
           0,
           ChatMessage(
-              message: "Hello, how I can I help you?",
+              message:
+                  "Hello I'm SoCCat! I’m happy to help you with any questions you may have about SoC.",
               sender: 'Soccat',
               userModel: _userModel));
     });
@@ -62,7 +63,7 @@ class _SocchatState extends State<Socchat> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   Text(
-                    'SoCChAT',
+                    'SoCChat',
                     style: TextStyle(fontSize: 30, color: Colors.white),
                   ),
                 ],
