@@ -67,7 +67,8 @@ class _SocchatState extends State<Socchat> {
       } else {
         setState(() {
           messages.add(ChatMessage(
-              message: "Hello, how may I help you?",
+              message:
+                  "Hello I'm SoCCat! I’m happy to help you with any questions you may have about SoC.",
               sender: "Soccat",
               userModel: _userModel));
         });
