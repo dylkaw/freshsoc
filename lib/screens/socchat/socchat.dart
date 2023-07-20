@@ -84,7 +84,7 @@ class _SocchatState extends State<Socchat> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'SoCChAT',
+                    'SoCChat',
                     style: TextStyle(fontSize: 30, color: Colors.white),
                   ),
                 ],

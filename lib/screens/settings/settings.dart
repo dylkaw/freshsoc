@@ -41,6 +41,26 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  void toggleNotification(bool value) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Notifications'),
+        content:
+            Text('Notifications have been toggled ${value ? 'on' : 'off'}.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'OK'),
+            child: const Text('OK'),
+          )
+        ],
+      ),
+    );
+    setState(() {
+      _notificationsEnabled = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,11 +98,7 @@ class _SettingsState extends State<Settings> {
               style: TextStyle(fontSize: 24),
             ),
             value: _notificationsEnabled,
-            onChanged: (bool value) {
-              setState(() {
-                _notificationsEnabled = value;
-              });
-            },
+            onChanged: toggleNotification,
             secondary: Icon(Icons.notifications),
           ),
           ListTile(
