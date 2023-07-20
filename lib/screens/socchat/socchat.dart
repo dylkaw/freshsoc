@@ -105,6 +105,11 @@ class _SocchatState extends State<Socchat> {
                 },
               ),
             ),
+            if (isTyping)
+              ChatMessage(
+                  message: "is typing...",
+                  sender: 'Soccat',
+                  userModel: _userModel),
             const SizedBox(
               height: 5,
             ),
@@ -144,6 +149,7 @@ class _SocchatState extends State<Socchat> {
                                     storedMessages!.removeLast();
                                   }
                                   storedMessages!.insert(0, question);
+                                  isTyping = true;
                                 });
                                 final response = await post(
                                     Uri.parse(
@@ -171,6 +177,7 @@ class _SocchatState extends State<Socchat> {
 
                                 if (jsonResponse["choices"].length > 0) {
                                   setState(() {
+                                    isTyping = false;
                                     messages.insert(
                                         0,
                                         ChatMessage(
