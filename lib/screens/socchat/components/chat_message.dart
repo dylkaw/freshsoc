@@ -1,7 +1,5 @@
-import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:freshsoc/models/user_model.dart";
-import "package:freshsoc/services/database.dart";
 import "package:freshsoc/shared/constants.dart";
 
 class ChatMessage extends StatefulWidget {
@@ -20,8 +18,6 @@ class ChatMessage extends StatefulWidget {
 }
 
 class _ChatMessageState extends State<ChatMessage> {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
   @override
   Widget build(BuildContext context) {
     if (widget.sender == 'Soccat') {

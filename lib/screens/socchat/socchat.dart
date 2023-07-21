@@ -21,12 +21,14 @@ class _SocchatState extends State<Socchat> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   final messages = [];
+
   final questionText = TextEditingController();
 
   String question = '';
 
   DatabaseService? db;
   UserModel? _userModel;
+  List? storedMessages = [];
 
   bool isTyping = false;
 
@@ -35,15 +37,6 @@ class _SocchatState extends State<Socchat> {
     super.initState();
     db = DatabaseService(user: _auth.currentUser);
     _loadUserData();
-    setState(() {
-      messages.insert(
-          0,
-          ChatMessage(
-              message:
-                  "Hello I'm SoCCat! I’m happy to help you with any questions you may have about SoC.",
-              sender: 'Soccat',
-              userModel: _userModel));
-    });
   }
 
   Future<void> _loadUserData() async {
@@ -53,15 +46,43 @@ class _SocchatState extends State<Socchat> {
 
   @override
   Widget build(BuildContext context) {
+    if (messages.isEmpty && _userModel != null) {
+      if (_userModel!.storedMessages != null) {
+        setState(() {
+          storedMessages = _userModel!.storedMessages;
+          for (int i = 0; i < storedMessages!.length; i++) {
+            if (i % 2 == 0) {
+              messages.add(ChatMessage(
+                  message: storedMessages![i],
+                  sender: "Soccat",
+                  userModel: _userModel));
+            } else {
+              messages.add(ChatMessage(
+                  message: storedMessages![i],
+                  sender: "user",
+                  userModel: _userModel));
+            }
+          }
+        });
+      } else {
+        setState(() {
+          messages.add(ChatMessage(
+              message:
+                  "Hello I'm SoCCat! I’m happy to help you with any questions you may have about SoC.",
+              sender: "Soccat",
+              userModel: _userModel));
+        });
+      }
+    }
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 234, 230, 229),
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(75),
+          preferredSize: const Size.fromHeight(75),
           child: AppBar(
-            flexibleSpace: SafeArea(
+            flexibleSpace: const SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
                     'SoCChat',
                     style: TextStyle(fontSize: 30, color: Colors.white),
@@ -85,7 +106,12 @@ class _SocchatState extends State<Socchat> {
                 },
               ),
             ),
-            SizedBox(
+            if (isTyping)
+              ChatMessage(
+                  message: "is typing...",
+                  sender: 'Soccat',
+                  userModel: _userModel),
+            const SizedBox(
               height: 5,
             ),
             Container(
@@ -119,6 +145,12 @@ class _SocchatState extends State<Socchat> {
                                 questionText.clear();
                                 setState(() {
                                   messages.insert(0, message);
+                                  if (storedMessages!.length == 10) {
+                                    storedMessages!.removeLast();
+                                    storedMessages!.removeLast();
+                                  }
+                                  storedMessages!.insert(0, question);
+                                  isTyping = true;
                                 });
                                 final response = await post(
                                     Uri.parse(
@@ -146,6 +178,7 @@ class _SocchatState extends State<Socchat> {
 
                                 if (jsonResponse["choices"].length > 0) {
                                   setState(() {
+                                    isTyping = false;
                                     messages.insert(
                                         0,
                                         ChatMessage(
@@ -153,8 +186,13 @@ class _SocchatState extends State<Socchat> {
                                                 ["message"]["content"],
                                             sender: 'Soccat',
                                             userModel: _userModel));
+                                    storedMessages!.insert(
+                                        0,
+                                        jsonResponse["choices"][0]["message"]
+                                            ["content"]);
                                     question = '';
                                   });
+                                  db!.updateStoredMessages(storedMessages);
                                 }
                               }
                             },

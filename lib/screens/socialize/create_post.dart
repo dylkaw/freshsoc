@@ -29,10 +29,10 @@ class _CreatePostState extends State<CreatePost> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(75),
           child: AppBar(
-            flexibleSpace: SafeArea(
+            flexibleSpace: const SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
                     'Create Post',
                     style: TextStyle(fontSize: 30, color: Colors.white),

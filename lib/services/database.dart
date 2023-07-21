@@ -145,4 +145,10 @@ class DatabaseService {
   Future<void> updateName(String uid, String newName) async {
     return userCollection.doc(uid).update({'name': newName});
   }
+
+  Future<void> updateStoredMessages(List? storedMessages) async {
+    return userCollection
+        .doc(user!.uid)
+        .update({'storedMessages': storedMessages});
+  }
 }
