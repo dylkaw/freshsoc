@@ -5,3 +5,23 @@ const textInputDecoration = InputDecoration(
   filled: true,
   isDense: true,
 );
+
+const nusOrange = Color(0xFFEF7C00);
+const nusBlue = Color(0xFF003D7C);
+
+const categories = ["Discussion", "Project", "Advice", "Hackathon", "Hobbies"];
+const categoryFilters = [
+  "All categories",
+  "Discussion",
+  "Project",
+  "Advice",
+  "Hackathon",
+  "Hobbies"
+];
+
+const flagOptions = [
+  "Bullying or Harrassment",
+  "Inappropriate Content",
+  "False Information",
+  "Spam"
+];

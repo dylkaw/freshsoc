@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:freshsoc/firebase_options.dart';
+import 'package:freshsoc/screens/navigator.dart';
+import 'package:freshsoc/screens/socialize/create_post.dart';
+import 'package:freshsoc/screens/socialize/view_post.dart';
 import 'package:freshsoc/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:freshsoc/services/auth.dart';
 import 'package:provider/provider.dart';
-import 'package:freshsoc/models/user_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,8 +26,14 @@ class MyApp extends StatelessWidget {
     return StreamProvider<User?>.value(
       initialData: null,
       value: _auth.authStateChanges(),
-      child: const MaterialApp(
+      child: MaterialApp(
         home: Wrapper(),
+        theme: ThemeData(fontFamily: 'Frutiger'),
+        routes: {
+          '/socialize': (context) => NavigationController(selectedIndex: 1),
+          CreatePost.routeName: (context) => const CreatePost(),
+          ViewPost.routeName: (context) => const ViewPost()
+        },
       ),
     );
   }
